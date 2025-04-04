@@ -29,7 +29,8 @@ void StateGLCopy(state_stack *dst, state_stack *src, uint32_t mask)
         dst->matrix = src->matrix;
 
     if(mask & MASK_STATE_CLIP) {
-        for(int i = 0; i < MAX_STATE_CLIP_PLANES; ++i)
+        int i;
+        for(i = 0; i < MAX_STATE_CLIP_PLANES; ++i)
             dst->clip[i] = src->clip[i];
     }
 
@@ -45,17 +46,20 @@ void StateGLCopy(state_stack *dst, state_stack *src, uint32_t mask)
     if(mask & MASK_STATE_OUTPUT)
         dst->output = src->output;
 
-    if(mask & MASK_STATE_LIGHT)
-        for(int i = 0; i < MAX_STATE_LIGHTS; ++i)
+    if(mask & MASK_STATE_LIGHT) {
+        int i;
+        for(i = 0; i < MAX_STATE_LIGHTS; ++i)
             dst->light[i] = src->light[i];
+    }
 }
 
 br_boolean StateGLPush(state_all *state, uint32_t mask)
 {
+    state_stack *old;
     if(state->top >= MAX_STATE_STACK)
         return BR_FALSE;
 
-    state_stack *old = state->current;
+    old = state->current;
     ++state->top;
     ++state->current;
 
@@ -66,10 +70,11 @@ br_boolean StateGLPush(state_all *state, uint32_t mask)
 
 br_boolean StateGLPop(state_all *state, uint32_t mask)
 {
+    state_stack *old;
     if(state->top <= 0)
         return BR_FALSE;
 
-    state_stack *old = state->current;
+    old = state->current;
     --state->top;
     --state->current;
 

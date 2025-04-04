@@ -13,12 +13,13 @@ target_compile_definitions(brender-inc INTERFACE
         )
 
 
-# Generate pretok.h, pretok_c.h, and toktype.c
+# Generate pretok.h, pretok.c, pretok.inc and and toktype.c
 add_custom_command(
-        OUTPUT pretok.h pretok.c toktype.c
+        OUTPUT pretok.h pretok.c pretok.inc toktype.c
         COMMAND "${PERL_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../../make/tokgen.pl" "${CMAKE_CURRENT_SOURCE_DIR}/pretok.tok"
         MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/pretok.tok"
-        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../../make/tokgen.pl"
+        BYPRODUCTS "tokens.new"
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../../make/tokgen.pl" "${CMAKE_CURRENT_SOURCE_DIR}/../fw/tokens.db"
 )
 
 set(GENERATED_FILES

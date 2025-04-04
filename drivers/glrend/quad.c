@@ -36,11 +36,12 @@ static br_device_pixelmap_gl_tri s_QuadData[4] = {
 };
 // clang-format on
 
+BR_STATIC_ASSERT(sizeof(((br_device_pixelmap_gl_quad*)NULL)->tris) == sizeof(s_QuadData), quad_size_mismatch);
+
 void DeviceGLInitQuad(br_device_pixelmap_gl_quad *self, HVIDEO hVideo)
 {
     /* Create the crap needed for the operations quad. */
     BrMemCpy(self->tris, s_QuadData, sizeof(self->tris));
-    BR_STATIC_ASSERT(sizeof(self->tris) == sizeof(s_QuadData), "Quad size mismatch");
 
     { /* Build the buffers */
         glGenBuffers(2, self->buffers);

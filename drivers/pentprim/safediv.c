@@ -3,6 +3,7 @@
 static inline br_int_32 __SafeDiv(br_int_64 a, br_int_32 b)
 {
     br_int_32 sign = b ^ (br_uint_32)(a >> 31);
+    br_uint_32 result;
 
     if(a < 0) {
         a = -a;
@@ -19,7 +20,7 @@ static inline br_int_32 __SafeDiv(br_int_64 a, br_int_32 b)
     }
 
     // NOTE(???): div *must* be safe now or I'll eat my hat... NOT!
-    br_uint_32 result = a / b;
+    result = a / b;
 
     sign >>= 31;
     result ^= sign;

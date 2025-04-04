@@ -39,8 +39,8 @@ br_renderer_state_stored* RendererStateStoredGLAllocate(br_renderer* renderer, s
     return self;
 }
 
-static void BR_CMETHOD_DECL(br_renderer_state_stored_gl, free)(br_object* _self) {
-    br_renderer_state_stored* self = (br_renderer_state_stored*)_self;
+static void BR_CMETHOD_DECL(br_renderer_state_stored_gl, free)(br_object* arg_self) {
+    br_renderer_state_stored* self = (br_renderer_state_stored*)arg_self;
 
     ObjectContainerRemove(self->renderer, (br_object*)self);
 
@@ -70,8 +70,8 @@ static br_size_t BR_CMETHOD_DECL(br_renderer_state_stored_gl, space)(br_object* 
     return sizeof(br_renderer_state_stored);
 }
 
-static struct br_tv_template* BR_CMETHOD_DECL(br_renderer_state_stored_gl, templateQuery)(br_object* _self) {
-    br_renderer_state_stored* self = (br_renderer_state_stored*)_self;
+static struct br_tv_template* BR_CMETHOD_DECL(br_renderer_state_stored_gl, templateQuery)(br_object* arg_self) {
+    br_renderer_state_stored* self = (br_renderer_state_stored*)arg_self;
 
     if (self->device->templates.rendererStateStoredTemplate == NULL) {
         self->device->templates.rendererStateStoredTemplate = BrTVTemplateAllocate(

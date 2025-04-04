@@ -259,6 +259,8 @@ lineDrawn:
 }
 
 void BR_ASM_CALL TriangleRender_ZT_I8_D16_POW2(brp_block *block, int pow2, int skip_setup, brp_vertex* v0, brp_vertex* v1, brp_vertex* v2) {
+	intptr_t cb;
+	intptr_t db;
     /*
 	brp_vertex *v0; // [esp+18h] [ebp+Ch]
     brp_vertex *v1; // [esp+1Ch] [ebp+10h]
@@ -273,8 +275,8 @@ void BR_ASM_CALL TriangleRender_ZT_I8_D16_POW2(brp_block *block, int pow2, int s
 		TriangleSetup_ZT(v0, v1, v2);
 	}
 
-	intptr_t cb = 0;
-    intptr_t db = 0;
+	cb = 0;
+    db = 0;
 
 // ;										st(0)		st(1)		st(2)		st(3)		st(4)		st(5)		st(6)		st(7)
 // 	fild work.colour.base			;	cb

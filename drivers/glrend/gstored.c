@@ -64,8 +64,9 @@ static GLuint build_vbo_posn(const struct v11model* model, size_t total_vertices
     br_vector3_f* vtx = BrScratchAllocate(total_vertices * sizeof(br_vector3_f));
     br_vector3_f* next = vtx;
     GLuint buf;
+    br_uint_16 i;
 
-    for (br_uint_16 i = 0; i < model->ngroups; ++i) {
+    for (i = 0; i < model->ngroups; ++i) {
         const struct v11group* gp = model->groups + i;
         memcpy(next, gp->position, gp->nvertices * sizeof(br_vector3_f));
         next += gp->nvertices;
@@ -83,10 +84,12 @@ static GLuint build_vbo(const struct v11model* model, size_t total_vertices) {
     gl_vertex_f* vtx = (gl_vertex_f*)BrScratchAllocate(total_vertices * sizeof(gl_vertex_f));
     gl_vertex_f* nextVtx = vtx;
     GLuint buf;
+    br_uint_16 i;
 
-    for (br_uint_16 i = 0; i < model->ngroups; ++i) {
+    for (i = 0; i < model->ngroups; ++i) {
         const struct v11group* gp = model->groups + i;
-        for (br_uint_16 v = 0; v < gp->nvertices; ++v, ++nextVtx) {
+        br_uint_16 v;
+        for (v = 0; v < gp->nvertices; ++v, ++nextVtx) {
             nextVtx->map = *(br_vector2_f*)(gp->map + v);
             nextVtx->n = *(br_vector3_f*)(gp->normal + v);
             nextVtx->c.v[0] = BR_RED(gp->vertex_colours[v]) / 255.0f;
@@ -106,14 +109,16 @@ static GLuint build_vbo(const struct v11model* model, size_t total_vertices) {
 static GLuint build_ibo(const struct v11model* model, size_t total_faces, gl_groupinfo* groups) {
     br_uint_16* idx = (br_uint_16*)BrScratchAllocate(total_faces * 3 * sizeof(br_uint_16));
     GLuint buf;
+    br_uint_16 i;
 
     br_uint_16* nextIdx = idx;
     br_uint_16 offset = 0;
     br_size_t face_offset = 0;
 
-    for (br_uint_16 i = 0; i < model->ngroups; ++i) {
+    for (i = 0; i < model->ngroups; ++i) {
+        br_uint_16 f;
         const struct v11group* gp = model->groups + i;
-        for (br_uint_16 f = 0; f < gp->nfaces; ++f) {
+        for (f = 0; f < gp->nfaces; ++f) {
             const br_vector3_u16* fp = gp->vertex_numbers + f;
             *nextIdx++ = fp->v[0] + offset;
             *nextIdx++ = fp->v[1] + offset;
@@ -139,6 +144,7 @@ static GLuint build_ibo(const struct v11model* model, size_t total_faces, gl_gro
 br_geometry_stored* GeometryStoredGLAllocate(br_geometry_v1_model* gv1model, const char* id, br_renderer* r, struct v11model* model) {
     size_t total_vertices, total_faces;
     br_geometry_stored* self;
+    br_uint_16 i;
 
     self = BrResAllocate(gv1model->renderer_facility->object_list, sizeof(*self), BR_MEMORY_OBJECT);
     self->dispatch = &geometryStoredDispatch;
@@ -155,7 +161,7 @@ br_geometry_stored* GeometryStoredGLAllocate(br_geometry_v1_model* gv1model, con
 
     total_vertices = 0;
     total_faces = 0;
-    for (br_uint_16 i = 0; i < model->ngroups; ++i) {
+    for (i = 0; i < model->ngroups; ++i) {
         total_vertices += model->groups[i].nvertices;
         total_faces += model->groups[i].nfaces;
     }
@@ -173,8 +179,8 @@ br_geometry_stored* GeometryStoredGLAllocate(br_geometry_v1_model* gv1model, con
     return (br_geometry_stored*)self;
 }
 
-static void BR_CMETHOD(br_geometry_stored_gl, free)(br_object* _self) {
-    br_geometry_stored* self = (br_geometry_stored*)_self;
+static void BR_CMETHOD_DECL(br_geometry_stored_gl, free)(br_object* arg_self) {
+    br_geometry_stored* self = (br_geometry_stored*)arg_self;
 
     ObjectContainerRemove(self->gv1model->renderer_facility, (br_object*)self);
 
@@ -185,28 +191,28 @@ static void BR_CMETHOD(br_geometry_stored_gl, free)(br_object* _self) {
     BrResFreeNoCallback(self);
 }
 
-static char* BR_CMETHOD(br_geometry_stored_gl, identifier)(br_object* self) {
+static char* BR_CMETHOD_DECL(br_geometry_stored_gl, identifier)(br_object* self) {
     return ((br_geometry_stored*)self)->identifier;
 }
 
-static br_device* BR_CMETHOD(br_geometry_stored_gl, device)(br_object* self) {
+static br_device* BR_CMETHOD_DECL(br_geometry_stored_gl, device)(br_object* self) {
     return ((br_geometry_stored*)self)->device;
 }
 
-static br_token BR_CMETHOD(br_geometry_stored_gl, type)(br_object* self) {
+static br_token BR_CMETHOD_DECL(br_geometry_stored_gl, type)(br_object* self) {
     return BRT_GEOMETRY_STORED;
 }
 
-static br_boolean BR_CMETHOD(br_geometry_stored_gl, isType)(br_object* self, br_token t) {
+static br_boolean BR_CMETHOD_DECL(br_geometry_stored_gl, isType)(br_object* self, br_token t) {
     return (t == BRT_GEOMETRY_STORED) || (t == BRT_GEOMETRY) || (t == BRT_OBJECT);
 }
 
-static br_int_32 BR_CMETHOD(br_geometry_stored_gl, space)(br_object* self) {
+static br_int_32 BR_CMETHOD_DECL(br_geometry_stored_gl, space)(br_object* self) {
     return sizeof(br_geometry_stored);
 }
 
-static struct br_tv_template* BR_CMETHOD(br_geometry_stored_gl, templateQuery)(br_object* _self) {
-    br_geometry_stored* self = (br_geometry_stored*)_self;
+static struct br_tv_template* BR_CMETHOD_DECL(br_geometry_stored_gl, templateQuery)(br_object* arg_self) {
+    br_geometry_stored* self = (br_geometry_stored*)arg_self;
 
     if (self->device->templates.geometryStoredTemplate == NULL) {
         self->device->templates.geometryStoredTemplate = BrTVTemplateAllocate(self->device, templateEntries,
@@ -419,6 +425,7 @@ static br_error V1Model_RenderStored(struct br_geometry_stored* self, br_rendere
     br_vector3 pos;
     br_boolean defer;
     br_scalar distance_from_zero;
+    int i;
 
     state = renderer->state.current;
 
@@ -428,7 +435,7 @@ static br_error V1Model_RenderStored(struct br_geometry_stored* self, br_rendere
 
     defer = want_defer(&state->hidden);
 
-    for (int i = 0; i < self->model->ngroups; ++i) {
+    for (i = 0; i < self->model->ngroups; ++i) {
         struct v11group* group = self->model->groups + i;
         gl_groupinfo* groupinfo = self->groups + i;
         br_renderer_state_stored* stored = (br_renderer_state_stored*)group->stored;
@@ -475,11 +482,11 @@ static br_error V1Model_RenderStored(struct br_geometry_stored* self, br_rendere
     return BRE_OK;
 }
 
-static br_error BR_CMETHOD(br_geometry_stored_gl, render)(br_geometry_stored* self, br_renderer* renderer, struct br_renderer_state_stored* default_state) {
+static br_error BR_CMETHOD_DECL(br_geometry_stored_gl, render)(br_geometry_stored* self, br_renderer* renderer, struct br_renderer_state_stored* default_state) {
     return V1Model_RenderStored(self, renderer, BR_FALSE, default_state);
 }
 
-static br_error BR_CMETHOD(br_geometry_stored_gl, renderOnScreen)(br_geometry_stored* self, br_renderer* renderer, struct br_renderer_state_stored* default_state) {
+static br_error BR_CMETHOD_DECL(br_geometry_stored_gl, renderOnScreen)(br_geometry_stored* self, br_renderer* renderer, struct br_renderer_state_stored* default_state) {
     return V1Model_RenderStored(self, renderer, BR_TRUE, default_state);
 }
 
@@ -488,21 +495,21 @@ static const struct br_geometry_stored_dispatch geometryStoredDispatch = {
     .__reserved1 = NULL,
     .__reserved2 = NULL,
     .__reserved3 = NULL,
-    ._free = BR_CMETHOD(br_geometry_stored_gl, free),
-    ._identifier = BR_CMETHOD(br_geometry_stored_gl, identifier),
-    ._type = BR_CMETHOD(br_geometry_stored_gl, type),
-    ._isType = BR_CMETHOD(br_geometry_stored_gl, isType),
-    ._device = BR_CMETHOD(br_geometry_stored_gl, device),
-    ._space = BR_CMETHOD(br_geometry_stored_gl, space),
+    ._free = BR_CMETHOD_REF(br_geometry_stored_gl, free),
+    ._identifier = BR_CMETHOD_REF(br_geometry_stored_gl, identifier),
+    ._type = BR_CMETHOD_REF(br_geometry_stored_gl, type),
+    ._isType = BR_CMETHOD_REF(br_geometry_stored_gl, isType),
+    ._device = BR_CMETHOD_REF(br_geometry_stored_gl, device),
+    ._space = BR_CMETHOD_REF(br_geometry_stored_gl, space),
 
-    ._templateQuery = BR_CMETHOD(br_geometry_stored_gl, templateQuery),
-    ._query = BR_CMETHOD(br_object, query),
-    ._queryBuffer = BR_CMETHOD(br_object, queryBuffer),
-    ._queryMany = BR_CMETHOD(br_object, queryMany),
-    ._queryManySize = BR_CMETHOD(br_object, queryManySize),
-    ._queryAll = BR_CMETHOD(br_object, queryAll),
-    ._queryAllSize = BR_CMETHOD(br_object, queryAllSize),
+    ._templateQuery = BR_CMETHOD_REF(br_geometry_stored_gl, templateQuery),
+    ._query = BR_CMETHOD_REF(br_object, query),
+    ._queryBuffer = BR_CMETHOD_REF(br_object, queryBuffer),
+    ._queryMany = BR_CMETHOD_REF(br_object, queryMany),
+    ._queryManySize = BR_CMETHOD_REF(br_object, queryManySize),
+    ._queryAll = BR_CMETHOD_REF(br_object, queryAll),
+    ._queryAllSize = BR_CMETHOD_REF(br_object, queryAllSize),
 
-    ._render = BR_CMETHOD(br_geometry_stored_gl, render),
-    ._renderOnScreen = BR_CMETHOD(br_geometry_stored_gl, renderOnScreen),
+    ._render = BR_CMETHOD_REF(br_geometry_stored_gl, render),
+    ._renderOnScreen = BR_CMETHOD_REF(br_geometry_stored_gl, renderOnScreen),
 };

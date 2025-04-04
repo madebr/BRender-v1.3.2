@@ -381,14 +381,14 @@ br_error BR_CMETHOD_DECL(br_device_pixelmap_fail,
     rectangleStretchCopyTo)(struct br_device_pixelmap* self, br_rectangle* destinationRectangle,
     struct br_device_pixelmap* src, br_rectangle* sourceRectangle);
 br_error BR_CMETHOD_DECL(br_device_pixelmap_fail,
-    rectangleStretchCopyFrom)(struct br_device_pixelmap* _self, br_rectangle* d,
+    rectangleStretchCopyFrom)(struct br_device_pixelmap* self, br_rectangle* d,
     struct br_device_pixelmap* dest, br_rectangle* s);
 br_error BR_CMETHOD_DECL(br_device_pixelmap_fail, rectangleFill)(struct br_device_pixelmap* self, br_rectangle* rect,
     br_uint_32 colour);
 br_error BR_CMETHOD_DECL(br_device_pixelmap_fail, pixelSet)(struct br_device_pixelmap* self, br_point* p, br_uint_32 colour);
 br_error BR_CMETHOD_DECL(br_device_pixelmap_fail, line)(struct br_device_pixelmap* self, br_point* s, br_point* e,
     br_uint_32 colour);
-br_error BR_CMETHOD_DECL(br_device_pixelmap_fail, copyBits)(struct br_device_pixelmap* _self, br_point* point,
+br_error BR_CMETHOD_DECL(br_device_pixelmap_fail, copyBits)(struct br_device_pixelmap* self, br_point* point,
     br_uint_8* src, br_uint_16 s_stride, br_rectangle* bit_rect,
     br_uint_32 colour);
 br_error BR_CMETHOD_DECL(br_device_pixelmap_fail, text)(struct br_device_pixelmap* self, br_point* point, br_font* font,

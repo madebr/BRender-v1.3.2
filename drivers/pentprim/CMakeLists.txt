@@ -157,7 +157,7 @@ if(BRENDER_ASAN_ENABLED)
 	)
 endif()
 
-if(NOT MSVC)
+if(NOT MSVC AND NOT WATCOM)
 	target_compile_options(pentprim PRIVATE -fno-strict-aliasing)
 endif()
 

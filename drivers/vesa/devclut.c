@@ -13,7 +13,7 @@
 #include "shortcut.h"
 #include "brassert.h"
 
-#ifdef __VISUALC__
+#if defined(__DOS__) || defined(__GO32)
 #include "ports.h"
 #else
 #include <conio.h>

@@ -46,10 +46,14 @@ void BR_PUBLIC_ENTRY BrMaterialUpdate(br_material *mat, br_uint_16 flags)
 	 * Translate material into state
 	 */
 
-	if(flags & BR_MATU_MAP_TRANSFORM)
-		RendererPartSet(v1db.renderer, BRT_SURFACE, 0, BRT_AS_MATRIX23_SCALAR(MAP_MATRIX), (br_value){.m23 = &mat->map_transform});
+	if(flags & BR_MATU_MAP_TRANSFORM) {
+		br_value v;
+		v.m23 = &mat->map_transform;
+		RendererPartSet(v1db.renderer, BRT_SURFACE, 0, BRT_AS_MATRIX23_SCALAR(MAP_MATRIX), v);
+	}
 
 	if(flags & BR_MATU_RENDERING) {
+		br_value v;
 		tvp = tva;
 
 		tvp->t = BRT_COLOUR_SOURCE_T;
@@ -300,7 +304,8 @@ void BR_PUBLIC_ENTRY BrMaterialUpdate(br_material *mat, br_uint_16 flags)
 			t = BRT_TWO_SIDED;
 
 
-		RendererPartSet(v1db.renderer, BRT_CULL, 0, BRT_TYPE_T, (br_value){.t = t});
+		v.t = t;
+		RendererPartSet(v1db.renderer, BRT_CULL, 0, BRT_TYPE_T, v);
 	}
 
 	if(flags & BR_MATU_LIGHTING) {

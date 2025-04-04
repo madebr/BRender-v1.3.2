@@ -20,7 +20,7 @@ typedef struct br_device_virtualfb_callback_procs {
 
 // For use with `glrend` device.
 typedef void BR_CALLBACK br_device_gl_swapbuffers_cbfn(br_pixelmap* pm);
-typedef void* BR_CALLBACK br_device_gl_getprocaddress_cbfn(const char* name);
+typedef void* br_device_gl_getprocaddress_cbfn(const char* name);
 typedef void BR_CALLBACK br_device_gl_free_cbfn(br_pixelmap* pm, void* user);
 typedef void BR_CALLBACK br_device_gl_getviewport_cbfn(int *x, int *y, float *width_multiplier, float *height_multiplier);
 

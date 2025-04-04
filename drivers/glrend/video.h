@@ -8,8 +8,11 @@
 extern "C" {
 #endif
 
-
-#define BR_STATIC_ASSERT(cond, msg) _Static_assert((cond), msg)
+#ifdef __WATCOMC__
+#define BR_STATIC_ASSERT(cond, msg) typedef msg[(cond)?1:-1]
+#else
+#define BR_STATIC_ASSERT(cond, msg) _Static_assert((cond), #msg)
+#endif
 
 typedef struct _VIDEO {
     GLint maxUniformBlockSize;
@@ -56,7 +59,10 @@ typedef struct _VIDEO {
     } brenderProgram;
 } VIDEO, *HVIDEO;
 
-#pragma pack(push, 16)
+#ifdef __WATCOMC__
+#define alignas(X)
+#endif
+
 /* std140-compatible light structure */
 typedef struct shader_data_light {
     /* (X, Y, Z, T), if T == 0, direct, otherwise point/spot */
@@ -75,7 +81,7 @@ typedef struct shader_data_light {
     /* Pad out the structure to maintain alignment. */
     alignas(4) float _pad0, _pad1;
 } shader_data_light;
-BR_STATIC_ASSERT(sizeof(shader_data_light) % 16 == 0, "shader_data_light is not aligned");
+BR_STATIC_ASSERT(sizeof(shader_data_light) % 16 == 0, shader_data_light_must_be_aligned);
 
 typedef struct shader_data_scene {
     alignas(16) br_vector4 eye_view;
@@ -89,7 +95,7 @@ typedef struct shader_data_scene {
 
 } shader_data_scene;
 BR_STATIC_ASSERT(sizeof(((shader_data_scene*)NULL)->lights) == sizeof(shader_data_light) * BR_MAX_LIGHTS,
-    "std::array<shader_data_light> fucked up");
+    std_array_shader_data_light_fucked_up);
 
 typedef struct shader_data_model {
     alignas(16) br_matrix4 model_view;

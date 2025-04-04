@@ -61,12 +61,12 @@ enum tTrapezium_size {
     eTrapezium_size_256x256,
 };
 
-// 	<>,\
-// 	<inc al>,<dec al>,<inc ah>,<dec ah>,\
+// 	<>,
+// 	<inc al>,<dec al>,<inc ah>,<dec ah>,
 // 	<>,<>
-// TrapeziumRender_ZPT_I8_D16 256,b,\
-// 	<>,\
-// 	<inc al>,<dec al>,<inc ah>,<dec ah>,\
+// TrapeziumRender_ZPT_I8_D16 256,b,
+// 	<>,
+// 	<inc al>,<dec al>,<inc ah>,<dec ah>,
 // 	<>,<>
 
 tSize_specific_params size_specific_params[] = {
@@ -1023,26 +1023,26 @@ donev:
     goto next_pixel;
 }
 
-// TrapeziumRender_ZPT_I8_D16 64,f,\
-//pre 	<shl eax,2>,\
+// TrapeziumRender_ZPT_I8_D16 64,f,
+//pre 	<shl eax,2>,
 //incu 	<add al,100b>,
 // decu <sub al,100b>,
 // incv <inc ah>,
-// decv <dec ah>,\
+// decv <dec ah>,
 // post1 <shr eax,2>,
 // post2 <and eax,0fffh>
-// TrapeziumRender_ZPT_I8_D16 64,b,\
-// 	<shl eax,2>,\
-// 	<add al,100b>,<sub al,100b>,<inc ah>,<dec ah>,\
+// TrapeziumRender_ZPT_I8_D16 64,b,
+// 	<shl eax,2>,
+// 	<add al,100b>,<sub al,100b>,<inc ah>,<dec ah>,
 // 	<shr eax,2>,<and eax,0fffh>
 
-// TrapeziumRender_ZPT_I8_D16 256,f,\
-// 	<>,\
-// 	<inc al>,<dec al>,<inc ah>,<dec ah>,\
+// TrapeziumRender_ZPT_I8_D16 256,f,
+// 	<>,
+// 	<inc al>,<dec al>,<inc ah>,<dec ah>,
 // 	<>,<>
-// TrapeziumRender_ZPT_I8_D16 256,b,\
-// 	<>,\
-// 	<inc al>,<dec al>,<inc ah>,<dec ah>,\
+// TrapeziumRender_ZPT_I8_D16 256,b,
+// 	<>,
+// 	<inc al>,<dec al>,<inc ah>,<dec ah>,
 // 	<>,<>
 
 

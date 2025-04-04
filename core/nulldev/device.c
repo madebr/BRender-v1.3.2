@@ -91,8 +91,8 @@ static br_size_t BR_CMETHOD_DECL(br_device_nulldev, space)(struct br_object* sel
     return sizeof(br_device);
 }
 
-static struct br_tv_template* BR_CMETHOD_DECL(br_device_nulldev, templateQuery)(struct br_object* _self) {
-    return ((br_device*)_self)->templates.deviceTemplate;
+static struct br_tv_template* BR_CMETHOD_DECL(br_device_nulldev, templateQuery)(struct br_object* self) {
+    return ((br_device*)self)->templates.deviceTemplate;
 }
 
 static void* BR_CMETHOD_DECL(br_device_nulldev, listQuery)(struct br_object_container* self) {

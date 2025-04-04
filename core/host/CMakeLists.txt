@@ -24,9 +24,29 @@ set(HOST_FILES
         host_ip.h
         hook.c
         memmgmt.c
+        )
 
+if(DOS)
+    set(HOST_ASM_FILES
+#        cpuid.asm
+        farmem.asm
+#        page.asm
+#        prot.asm
+#        real.asm
+#        realmem.asm
+#        segregs.asm
+        )
+    set_property(SOURCE ${HOST_ASM_FILES} PROPERTY LANGUAGE "ASM_MASM")
+    set_property(SOURCE ${HOST_ASM_FILES} APPEND PROPERTY COMPILE_OPTIONS "-nologo;-coff;-Gd;-Zf")
+    set_property(SOURCE ${HOST_ASM_FILES} APPEND PROPERTY COMPILE_DEFINITIONS "ADD_RCS_ID=0")
+    set_property(SOURCE ${HOST_ASM_FILES} APPEND PROPERTY OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/host.inc")
+    set_property(SOURCE ${HOST_ASM_FILES} APPEND PROPERTY INCLUDE_DIRECTORIES "${CMAKE_CURRENT_BINARY_DIR}/../inc")
+    list(APPEND HOST_FILES ${HOST_ASM_FILES})
+else()
+    list(APPEND HOST_FILES
         host_asm.c
         )
+endif()
 
 add_library(host OBJECT ${HOST_FILES})
 

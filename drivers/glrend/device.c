@@ -116,8 +116,8 @@ br_device* DeviceGLAllocate(const char* identifier, const char* arguments) {
     return self;
 }
 
-static void BR_CMETHOD_DECL(br_device_gl, free)(struct br_object* _self) {
-    br_device* self = (br_device*)_self;
+static void BR_CMETHOD_DECL(br_device_gl, free)(struct br_object* arg_self) {
+    br_device* self = (br_device*)arg_self;
 
     /*
      * Remove attached objects
@@ -153,8 +153,8 @@ static br_size_t BR_CMETHOD_DECL(br_device_gl, space)(struct br_object* self) {
     return sizeof(br_device);
 }
 
-static struct br_tv_template* BR_CMETHOD_DECL(br_device_gl, templateQuery)(struct br_object* _self) {
-    br_device* self = (br_device*)_self;
+static struct br_tv_template* BR_CMETHOD_DECL(br_device_gl, templateQuery)(struct br_object* arg_self) {
+    br_device* self = (br_device*)arg_self;
 
     if (self->templates.deviceTemplate == NULL) {
         self->templates.deviceTemplate = BrTVTemplateAllocate(self, deviceTemplateEntries, BR_ASIZE(deviceTemplateEntries));

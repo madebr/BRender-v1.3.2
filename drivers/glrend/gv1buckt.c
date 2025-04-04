@@ -38,9 +38,9 @@ br_geometry_v1_buckets *GeometryV1BucketsGLAllocate(br_renderer_facility *type, 
     return self;
 }
 
-static void BR_CMETHOD_DECL(br_geometry_v1_buckets_gl, free)(br_object *_self)
+static void BR_CMETHOD_DECL(br_geometry_v1_buckets_gl, free)(br_object *arg_self)
 {
-    br_geometry_v1_buckets *self = (br_geometry_v1_buckets *)_self;
+    br_geometry_v1_buckets *self = (br_geometry_v1_buckets *)arg_self;
 
     ObjectContainerRemove(self->renderer_facility, (br_object *)self);
 
@@ -72,9 +72,9 @@ static br_size_t BR_CMETHOD_DECL(br_geometry_v1_buckets_gl, space)(br_object *se
     return sizeof(br_geometry_v1_buckets);
 }
 
-static struct br_tv_template *BR_CMETHOD_DECL(br_geometry_v1_buckets_gl, templateQuery)(br_object *_self)
+static struct br_tv_template *BR_CMETHOD_DECL(br_geometry_v1_buckets_gl, templateQuery)(br_object *arg_self)
 {
-    br_geometry_v1_buckets *self = (br_geometry_v1_buckets *)_self;
+    br_geometry_v1_buckets *self = (br_geometry_v1_buckets *)arg_self;
 
     if(self->device->templates.geometryV1BucketsTemplate == NULL) {
         self->device->templates.geometryV1BucketsTemplate = BrTVTemplateAllocate(
@@ -89,11 +89,12 @@ br_error BR_CMETHOD_DECL(br_geometry_v1_buckets_gl, render)(br_geometry_v1_bucke
 {
     br_primitive             *p;
     br_renderer_state_stored *stored;
+    size_t count;
 
     if(nbuckets <= 0)
         return BRE_OK;
 
-    size_t count = 0;
+    count = 0;
     /*
      * Render bucket table from last to first
      */

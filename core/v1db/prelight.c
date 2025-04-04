@@ -54,11 +54,14 @@ void BR_PUBLIC_ENTRY BrSceneModelLight(br_model *model,
      * matrix to be the inverse of [camera_to_root][root_to_model]
      */
     if((root != NULL) && (a != NULL)){
+        br_value v;
+
         BrActorToActorMatrix34(&m2v, root, a);
         BrMatrix34Pre(&m2v, &v1db.camera_path[0].m);
+        v.m34 = &m2v;
         RendererPartSet(v1db.renderer, BRT_MATRIX, 0,
                         BRT_AS_MATRIX34_SCALAR(MODEL_TO_VIEW),
-                        (br_value){.m34 = &m2v});
+                        v);
         RendererModelInvert(v1db.renderer);
     }
 

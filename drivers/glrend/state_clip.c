@@ -24,11 +24,13 @@ static br_tv_template_entry clip_states[MAX_STATE_CLIP_PLANES][BR_ASIZE(template
 
 void StateGLInitClip(state_all *state)
 {
+    int i;
     /* Create a different template list for each clipping plane. */
-    for(int i = 0; i < MAX_STATE_CLIP_PLANES; ++i) {
+    for(i = 0; i < MAX_STATE_CLIP_PLANES; ++i) {
+        int j;
         BrMemCpy(&clip_states[i], template_entries, sizeof(template_entries));
 
-        for(int j = 0; j < BR_ASIZE(template_entries); ++j)
+        for(j = 0; j < BR_ASIZE(template_entries); ++j)
             clip_states[i][j].offset += sizeof(state_clip) * i;
 
         state->templates.clip[i] = BrTVTemplateAllocate(state->res, clip_states[i], BR_ASIZE(clip_states[i]));

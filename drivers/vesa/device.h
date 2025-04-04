@@ -23,6 +23,8 @@ struct vesa_scanline {
 	br_uint_32	_pad;
 };
 
+_Static_assert(sizeof(struct vesa_scanline) == 0x10);
+
 struct vesa_work {
 	br_uint_32	window_start;
 	br_uint_16	selector;
@@ -53,6 +55,8 @@ struct vesa_work {
 	br_uint_32	physical_address;
 	void 		*linear;
 };
+
+_Static_assert(sizeof(struct vesa_work) == 0x54);
 
 /*
  * Private state of device
@@ -108,6 +112,8 @@ typedef struct br_device {
 	br_boolean screen_active;
 
 } br_device;
+
+_Static_assert(sizeof(struct br_device) == 0x280);
 
 /*
  * Some useful inline ops.

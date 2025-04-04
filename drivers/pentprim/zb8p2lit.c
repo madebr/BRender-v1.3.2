@@ -9,6 +9,7 @@
 void DRAW_ZTI_I8_D16_POW2(uint32_t *minorX, uint32_t *d_minorX, char direction, int32_t *halfCount, int pow2) {
     // local drawPixel,drawLine,done,lineDrawn,noPlot,mask
     uint32_t mask=0;
+    int original_pixel_is_0;
 // ; height test
 	MAKE_N_LOW_BIT_MASK(&mask,pow2);
 
@@ -95,7 +96,7 @@ drawPixel:
         goto noPlot;
     }
     // test al,al
-    int original_pixel_is_0 = eax.l == 0;
+    original_pixel_is_0 = eax.l == 0;
     // mov esi,workspace.scratch0
     esi.v = workspace.scratch0;
     // mov al,[edi+eax]
@@ -254,6 +255,8 @@ lineDrawn:
 // }
 
 void BR_ASM_CALL TriangleRender_ZTI_I8_D16_POW2(brp_block *block, int pow2, int skip_setup, brp_vertex *v0, brp_vertex *v1,brp_vertex *v2) {
+	intptr_t cb;
+	intptr_t db;
     /*
 	brp_vertex *v0; // [esp+18h] [ebp+Ch]
     brp_vertex *v1; // [esp+1Ch] [ebp+10h]
@@ -268,8 +271,8 @@ void BR_ASM_CALL TriangleRender_ZTI_I8_D16_POW2(brp_block *block, int pow2, int 
 		TriangleSetup_ZTI(v0, v1, v2);
 	}
 
-	intptr_t cb = 0;
-    intptr_t db = 0;
+	cb = 0;
+    db = 0;
 
 // ;										st(0)		st(1)		st(2)		st(3)		st(4)		st(5)		st(6)		st(7)
 // 	fild work.colour.base			;	cb

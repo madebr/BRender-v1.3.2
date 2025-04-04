@@ -6,9 +6,10 @@
 
 br_boolean VIDEOI_CompileDefaultShader(HVIDEO hVideo) {
     GLuint vert = VIDEOI_CreateAndCompileShader("default.vert", GL_VERTEX_SHADER, DEFAULT_VERT_GLSL, sizeof(DEFAULT_VERT_GLSL));
+    GLuint frag;
     if (!vert)
         return BR_FALSE;
-    GLuint frag = VIDEOI_CreateAndCompileShader("default.frag", GL_FRAGMENT_SHADER, DEFAULT_FRAG_GLSL, sizeof(DEFAULT_FRAG_GLSL));
+    frag = VIDEOI_CreateAndCompileShader("default.frag", GL_FRAGMENT_SHADER, DEFAULT_FRAG_GLSL, sizeof(DEFAULT_FRAG_GLSL));
     if (!frag) {
         glDeleteShader(vert);
         return BR_FALSE;

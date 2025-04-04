@@ -14,7 +14,7 @@
  */
 static const struct br_device_pixelmap_dispatch devicePixelmapDispatch;
 
-static br_error custom_query(br_value* pvalue, void** extra, br_size_t* pextra_size, void* block, struct br_tv_template_entry* tep) {
+static br_error BR_CALLBACK custom_query(br_value* pvalue, void** extra, br_size_t* pextra_size, void* block, struct br_tv_template_entry* tep) {
     const br_device_pixelmap* self = block;
 
     if (tep->token == BRT_OPENGL_TEXTURE_U32) {
@@ -74,8 +74,8 @@ static void delete_gl_resources(br_device_pixelmap* self) {
     }
 }
 
-void BR_CMETHOD_DECL(br_device_pixelmap_gl, free)(br_object* _self) {
-    br_device_pixelmap* self = (br_device_pixelmap*)_self;
+void BR_CMETHOD_DECL(br_device_pixelmap_gl, free)(br_object* arg_self) {
+    br_device_pixelmap* self = (br_device_pixelmap*)arg_self;
 
     if (self->sub_pixelmap) {
         return;
@@ -116,8 +116,8 @@ br_size_t BR_CMETHOD_DECL(br_device_pixelmap_gl, space)(br_object* self) {
     return sizeof(br_device_pixelmap);
 }
 
-struct br_tv_template* BR_CMETHOD_DECL(br_device_pixelmap_gl, templateQuery)(br_object* _self) {
-    br_device_pixelmap* self = (br_device_pixelmap*)_self;
+struct br_tv_template* BR_CMETHOD_DECL(br_device_pixelmap_gl, templateQuery)(br_object* arg_self) {
+    br_device_pixelmap* self = (br_device_pixelmap*)arg_self;
 
     if (self->device->templates.devicePixelmapTemplate == NULL)
         self->device->templates.devicePixelmapTemplate = BrTVTemplateAllocate(self->device, devicePixelmapTemplateEntries,
@@ -165,14 +165,14 @@ br_error BR_CMETHOD_DECL(br_device_pixelmap_gl, match)(br_device_pixelmap* self,
     GLsizeiptr gl_elem_bytes;
     HVIDEO hVideo;
     struct pixelmapMatchTokens mt = {
-        .width = self->pm_width,
-        .height = self->pm_height,
         .pixel_bits = -1,
         .type = BR_PMT_MAX,
         .use_type = BRT_NONE,
         .msaa_samples = 0,
     };
     char tmp[80];
+    mt.width = self->pm_width;
+    mt.height = self->pm_height;
 
     hVideo = &self->screen->asFront.video;
 
@@ -328,11 +328,13 @@ br_error BR_CMETHOD_DECL(br_device_pixelmap_gl, rectangleFill)(br_device_pixelma
 
     if (self->use_type == BRT_OFFSCREEN) {
         if (self->pm_pixels != NULL) {
+            int y;
             switch (self->pm_type) {
             case BR_PMT_INDEX_8:
                 px8 = self->pm_pixels;
-                for (int y = rect->y; y < rect->y + rect->h; y++) {
-                    for (int x = rect->x; x < rect->x + rect->w; x++) {
+                for (y = rect->y; y < rect->y + rect->h; y++) {
+                    int x;
+                    for (x = rect->x; x < rect->x + rect->w; x++) {
                         px8[y * self->pm_width + x] = BR_ALPHA(colour);
                     }
                 }
@@ -340,8 +342,9 @@ br_error BR_CMETHOD_DECL(br_device_pixelmap_gl, rectangleFill)(br_device_pixelma
 
             case BR_PMT_RGB_565:
                 px16 = self->pm_pixels;
-                for (int y = rect->y; y < rect->y + rect->h; y++) {
-                    for (int x = rect->x; x < rect->x + rect->w; x++) {
+                for (y = rect->y; y < rect->y + rect->h; y++) {
+                    int x;
+                    for (x = rect->x; x < rect->x + rect->w; x++) {
                         px16[y * self->pm_width + x] = colour & 0xffff;
                     }
                 }
@@ -372,6 +375,7 @@ br_error BR_CMETHOD(br_device_pixelmap_gl, rectangleStretchCopyTo)(br_device_pix
 
 br_error BR_CMETHOD_DECL(br_device_pixelmap_gl, rectangleCopyTo)(br_device_pixelmap* self, br_point* p,
     br_device_pixelmap* src, br_rectangle* sr) {
+    int y;
     /* Pixelmap->Device, addressable same-size copy. */
 
     p->x = -self->pm_origin_x;
@@ -387,8 +391,9 @@ br_error BR_CMETHOD_DECL(br_device_pixelmap_gl, rectangleCopyTo)(br_device_pixel
         br_uint_16* buffer = BrScratchAllocate(sizeof(uint16_t) * sr->w * sr->h);
         br_uint_16* buffer_ptr = buffer;
         br_uint_16* src_px = src->pm_pixels;
-        for (int y = sr->y; y < sr->y + sr->h; y++) {
-            for (int x = sr->x; x < sr->x + sr->w; x++) {
+        for (y = sr->y; y < sr->y + sr->h; y++) {
+            int x;
+            for (x = sr->x; x < sr->x + sr->w; x++) {
                 br_uint_16 c = src_px[y * src->pm_row_bytes / 2 + x];
                 *buffer_ptr = c;
                 buffer_ptr++;
@@ -403,13 +408,15 @@ br_error BR_CMETHOD_DECL(br_device_pixelmap_gl, rectangleCopyTo)(br_device_pixel
         uint32_t* buffer_ptr = buffer;
         char* src_px = src->pm_pixels;
         uint32_t* map;
+        int y;
         if (src->pm_map) {
             map = src->pm_map->pixels;
         } else {
             map = ObjectDevice(self)->clut->entries;
         }
-        for (int y = sr->y; y < sr->y + sr->h; y++) {
-            for (int x = sr->x; x < sr->x + sr->w; x++) {
+        for (y = sr->y; y < sr->y + sr->h; y++) {
+            int x;
+            for (x = sr->x; x < sr->x + sr->w; x++) {
                 int index = src_px[y * src->pm_row_bytes + x];
                 *buffer_ptr = map[index];
                 buffer_ptr++;

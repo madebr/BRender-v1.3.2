@@ -40,8 +40,8 @@ br_geometry_v1_model* GeometryV1ModelGLAllocate(br_renderer_facility* type, cons
     return self;
 }
 
-static void BR_CMETHOD_DECL(br_geometry_v1_model_gl, free)(br_object* _self) {
-    br_geometry_v1_model* self = (br_geometry_v1_model*)_self;
+static void BR_CMETHOD_DECL(br_geometry_v1_model_gl, free)(br_object* arg_self) {
+    br_geometry_v1_model* self = (br_geometry_v1_model*)arg_self;
 
     ObjectContainerRemove(self->renderer_facility, (br_object*)self);
 
@@ -69,8 +69,8 @@ static br_size_t BR_CMETHOD_DECL(br_geometry_v1_model_gl, space)(br_object* self
     return sizeof(br_geometry_v1_model);
 }
 
-static struct br_tv_template* BR_CMETHOD_DECL(br_geometry_v1_model_gl, templateQuery)(br_object* _self) {
-    br_geometry_v1_model* self = (br_geometry_v1_model*)_self;
+static struct br_tv_template* BR_CMETHOD_DECL(br_geometry_v1_model_gl, templateQuery)(br_object* arg_self) {
+    br_geometry_v1_model* self = (br_geometry_v1_model*)arg_self;
 
     if (self->device->templates.geometryV1ModelTemplate == NULL) {
         self->device->templates.geometryV1ModelTemplate = BrTVTemplateAllocate(

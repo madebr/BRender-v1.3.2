@@ -11,14 +11,17 @@
 ** - For work that cannot be done here, see GLSTATE_ProcessActiveLights()
 */
 static void ProcessSceneLights(state_cache* cache, const state_light* lights) {
+    uint32_t i;
     cache->scene.num_lights = 0;
-    for (uint32_t i = 0; i < MAX_STATE_LIGHTS; ++i) {
+    for (i = 0; i < MAX_STATE_LIGHTS; ++i) {
+        shader_data_light* alp;
         const state_light* light = lights + i;
+        float intensity;
 
         if (light->type == BRT_NONE)
             continue;
 
-        shader_data_light* alp = cache->scene.lights + cache->scene.num_lights;
+        alp = cache->scene.lights + cache->scene.num_lights;
 
         /* See enables.c:194, BrSetupLights(). All the lights are already converted into view space. */
         BrVector4Set(&alp->position, light->position.v[0], light->position.v[1], light->position.v[2],
@@ -26,7 +29,7 @@ static void ProcessSceneLights(state_cache* cache, const state_light* lights) {
 
         BrVector4Set(&alp->direction, light->direction.v[0], light->direction.v[1], light->direction.v[2], 0.0f);
 
-        float intensity = 16384.0f; /* Effectively infinite */
+        intensity = 16384.0f; /* Effectively infinite */
         if (light->attenuation_c != 0)
             intensity = BR_RCP(light->attenuation_c);
 
@@ -54,8 +57,9 @@ static void ProcessSceneLights(state_cache* cache, const state_light* lights) {
 }
 
 static void ProcessClipPlanes(state_cache* cache, const state_clip* clips) {
+    uint32_t i;
     cache->scene.num_clip_planes = 0;
-    for (uint32_t i = 0; i < MAX_STATE_CLIP_PLANES; i++) {
+    for (i = 0; i < MAX_STATE_CLIP_PLANES; i++) {
         const state_clip* clip = &clips[i];
         if (clip->type == BRT_NONE) {
             continue;
@@ -205,6 +209,8 @@ static void ResetCacheLight(shader_data_light* alp) {
 }
 
 void StateGLReset(state_cache* cache) {
+    int i;
+
     BrMatrix4Identity(&cache->model.p_br);
     BrMatrix4Identity(&cache->model.p);
     BrMatrix4Identity(&cache->model.mv);
@@ -215,7 +221,7 @@ void StateGLReset(state_cache* cache) {
 
     BrVector4Set(&cache->scene.eye_view, 0, 0, 0, 0);
 
-    for (int i = 0; i < BR_ASIZE(cache->scene.lights); ++i) {
+    for (i = 0; i < BR_ASIZE(cache->scene.lights); ++i) {
         ResetCacheLight(cache->scene.lights + i);
     }
 

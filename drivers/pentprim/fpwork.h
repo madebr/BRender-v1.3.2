@@ -28,6 +28,10 @@ typedef union fp64_t {
     double double_val;
 } fp64_t;
 
+#ifdef __WATCOMC__
+#pragma pack(push, 8);
+#endif
+
 struct ALIGN(8) workspace_t {
     // qwords start here
 
@@ -525,6 +529,10 @@ struct ALIGN(8) ArbitraryWidthWorkspace_t {
     uint32_t flags;
     char    *retAddress;
 } ;
+
+#ifdef __WATCOMC__
+#pragma pack(pop);
+#endif
 
 extern struct workspace_t               workspace;
 extern struct ArbitraryWidthWorkspace_t workspaceA;

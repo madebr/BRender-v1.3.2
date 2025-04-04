@@ -119,6 +119,7 @@ static void *ResToUser(struct resource_header *r)
  */
 static struct resource_header *UserToRes(void *r)
 {
+	struct resource_header *res;
 	br_uint_8 *p = r;
 
 	/*
@@ -130,13 +131,13 @@ static struct resource_header *UserToRes(void *r)
 	while(*(p - 1) == 0)
 		p--;
 
-	// https://github.com/crocguy0688/CrocDE-BRender
-	#if BR_RES_TAGGING
+// https://github.com/crocguy0688/CrocDE-BRender
+#if BR_RES_TAGGING
     p -= offsetof(struct resource_header, magic_num) + sizeof(((struct resource_header *)NULL)->magic_num);
 #else
     p -= offsetof(struct resource_header, class) + sizeof(((struct resource_header *)NULL)->class);
 #endif
-	struct resource_header *res = (struct resource_header *)p;
+	res = (struct resource_header *)p;
 
 #if BR_RES_TAGGING
     UASSERT(res->magic_ptr == res);

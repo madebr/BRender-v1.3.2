@@ -41,8 +41,8 @@ br_renderer_facility* RendererFacilityGLInit(br_device* device) {
     return (br_renderer_facility*)self;
 }
 
-static void BR_CMETHOD_DECL(br_renderer_facility_gl, free)(br_object* _self) {
-    br_renderer_facility* self = (br_renderer_facility*)_self;
+static void BR_CMETHOD_DECL(br_renderer_facility_gl, free)(br_object* arg_self) {
+    br_renderer_facility* self = (br_renderer_facility*)arg_self;
 
     /*
      * Detach renderer from device
@@ -80,8 +80,8 @@ static br_size_t BR_CMETHOD_DECL(br_renderer_facility_gl, space)(br_object* self
     return sizeof(br_renderer_facility);
 }
 
-static struct br_tv_template* BR_CMETHOD_DECL(br_renderer_facility_gl, templateQuery)(br_object* _self) {
-    br_renderer_facility* self = (br_renderer_facility*)_self;
+static struct br_tv_template* BR_CMETHOD_DECL(br_renderer_facility_gl, templateQuery)(br_object* arg_self) {
+    br_renderer_facility* self = (br_renderer_facility*)arg_self;
 
     if (self->device->templates.rendererFacilityTemplate == NULL) {
         self->device->templates.rendererFacilityTemplate = BrTVTemplateAllocate(

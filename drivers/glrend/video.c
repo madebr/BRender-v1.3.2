@@ -332,10 +332,11 @@ br_error VIDEOI_BrPixelmapToExistingTexture(GLuint tex, br_pixelmap* pm) {
 }
 
 GLuint VIDEO_BrPixelmapToGLTexture(br_pixelmap* pm) {
+    GLuint tex;
+
     if (pm == NULL)
         return 0;
 
-    GLuint tex;
     glGenTextures(1, &tex);
 
     if (VIDEOI_BrPixelmapToExistingTexture(tex, pm) != BRE_OK)

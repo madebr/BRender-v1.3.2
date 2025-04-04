@@ -57,8 +57,8 @@ br_output_facility* OutputFacilityGLInit(br_device* dev, br_renderer_facility* r
 /*
  * Common object methods
  */
-static void BR_CMETHOD_DECL(br_output_facility_gl, free)(br_object* _self) {
-    br_output_facility* self = (br_output_facility*)_self;
+static void BR_CMETHOD_DECL(br_output_facility_gl, free)(br_object* arg_self) {
+    br_output_facility* self = (br_output_facility*)arg_self;
 
     ObjectContainerRemove(self->device, (br_object*)self);
 
@@ -93,8 +93,8 @@ static br_size_t BR_CMETHOD_DECL(br_output_facility_gl, space)(br_object* self) 
     return sizeof(br_output_facility);
 }
 
-static struct br_tv_template* BR_CMETHOD_DECL(br_output_facility_gl, queryTemplate)(br_object* _self) {
-    br_output_facility* self = (br_output_facility*)_self;
+static struct br_tv_template* BR_CMETHOD_DECL(br_output_facility_gl, queryTemplate)(br_object* arg_self) {
+    br_output_facility* self = (br_output_facility*)arg_self;
 
     if (self->device->templates.outputFacilityTemplate == NULL)
         self->device->templates.outputFacilityTemplate = BrTVTemplateAllocate(self->device, outputFacilityTemplateEntries,

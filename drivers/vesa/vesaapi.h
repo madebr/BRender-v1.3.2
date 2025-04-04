@@ -32,6 +32,8 @@ struct vesa_info {
     br_uint_8 oem_data[256];
 };
 
+_Static_assert(sizeof(struct vesa_info) == 0x200);
+
 struct vesa_info_rm {
     br_uint_8 vbe_signature[4];
     br_uint_16 vbe_version;

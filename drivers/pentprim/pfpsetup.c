@@ -566,6 +566,7 @@ exit:
 // ;
 
 int SETUP_FLOAT_CHECK_PERSPECTIVE_CHEAT() {
+    int jb_flag;
 
     assert(x86_state.x87_stack_top == -1);
 
@@ -746,7 +747,7 @@ xrange_larger:
 	// ;
     // cmp		ecx,edx
     CMP(ecx.v, edx.v);
-    int jb_flag = ecx.v < edx.v;
+    jb_flag = ecx.v < edx.v;
     // mov		ecx,workspace_v1
     ecx.ptr_v = workspace.v1;
 
@@ -777,6 +778,7 @@ xrange_larger:
 // ;	ebp: ptr to bottom vertex
 // ;
 void SETUP_FLOAT_UV_PERSPECTIVE() {
+    float f;
     assert(x86_state.x87_stack_top == -1);
     // 		assume esi: ptr brp_vertex, edi: ptr brp_vertex, ebp: ptr brp_vertex
 
@@ -1251,7 +1253,7 @@ exact:
     FXCH(2);
     // ;1 cycle
     // fmul	maxuv						;	vdx'	vstart	vdx*xs0	vdy
-    float f = *(float *)&maxuv;
+    f = *(float *)&maxuv;
     FMUL(maxuv);
     // fxch	st(2)						;	vdx*xs0	vstart	vdx'	vdy
     FXCH(2);
@@ -1431,7 +1433,7 @@ void TriangleSetup_ZPT(brp_vertex *v0, brp_vertex *v1, brp_vertex *v2) {
         return;
     }
 	//SETUP_FLOAT_PARAM C_SZ,pz,fp_conv_d16,1
-	SETUP_FLOAT_PARAM(C_SZ,"_z",&workspace.s_z_double,&workspace.d_z_x_double,fp_conv_d16,1);
+	SETUP_FLOAT_PARAM(C_SZ,"_z",(fp64_t*)&workspace.s_z_double,(fp64_t*)&workspace.d_z_x_double,fp_conv_d16,1);
 	if (SETUP_FLOAT_CHECK_PERSPECTIVE_CHEAT() == CHEAT_YES) {
 		// mov	esi,work.tsl.direction
 		// mov	workspace.flip,esi
@@ -1439,8 +1441,8 @@ void TriangleSetup_ZPT(brp_vertex *v0, brp_vertex *v1, brp_vertex *v2) {
 
 		// SETUP_FLOAT_PARAM C_U,pu,fp_conv_d16
 		// SETUP_FLOAT_PARAM C_V,pv,fp_conv_d16
-		SETUP_FLOAT_PARAM(C_U,"_u",&workspace.s_u_double,&workspace.d_u_x_double,fp_conv_d16, 0);
-		SETUP_FLOAT_PARAM(C_V,"_v",&workspace.s_v_double,&workspace.d_v_x_double,fp_conv_d16, 0);
+		SETUP_FLOAT_PARAM(C_U,"_u",(fp64_t*)&workspace.s_u_double,(fp64_t*)&workspace.d_u_x_double,fp_conv_d16, 0);
+		SETUP_FLOAT_PARAM(C_V,"_v",(fp64_t*)&workspace.s_v_double,(fp64_t*)&workspace.d_v_x_double,fp_conv_d16, 0);
 		//stc
 		x86_state.cf = 1;
 	} else {
@@ -1455,7 +1457,7 @@ void TriangleSetup_ZPT_NOCHEAT(brp_vertex *v0, brp_vertex *v1, brp_vertex *v2) {
         return;
     }
 	//SETUP_FLOAT_PARAM C_SZ,pz,fp_conv_d16,1
-	SETUP_FLOAT_PARAM(C_SZ,"_z",&workspace.s_z_double,&workspace.d_z_x_double,fp_conv_d16,1);
+	SETUP_FLOAT_PARAM(C_SZ,"_z",(fp64_t*)&workspace.s_z_double,(fp64_t*)&workspace.d_z_x_double,fp_conv_d16,1);
     // mov		esi,top_vertex
     esi.ptr_v = top_mid_bot_vertices[0];
     // mov		edi,mid_vertex
@@ -1470,9 +1472,9 @@ void TriangleSetup_ZPTI(brp_vertex *v0, brp_vertex *v1, brp_vertex *v2) {
         return;
     }
 	//SETUP_FLOAT_PARAM C_SZ,pz,fp_conv_d16,1
-	SETUP_FLOAT_PARAM(C_SZ,"_z",&workspace.s_z_double,&workspace.d_z_x_double,fp_conv_d16,1);
+	SETUP_FLOAT_PARAM(C_SZ,"_z",(fp64_t*)&workspace.s_z_double,(fp64_t*)&workspace.d_z_x_double,fp_conv_d16,1);
     // SETUP_FLOAT_PARAM C_I,pi,fp_conv_d16
-    SETUP_FLOAT_PARAM(C_I,"_i",&workspace.s_i_double,&workspace.d_i_x_double,fp_conv_d16, 0);
+    SETUP_FLOAT_PARAM(C_I,"_i",(fp64_t*)&workspace.s_i_double,(fp64_t*)&workspace.d_i_x_double,fp_conv_d16, 0);
 	if (SETUP_FLOAT_CHECK_PERSPECTIVE_CHEAT() == CHEAT_YES) {
 		// mov	esi,work.tsl.direction
 		// mov	workspace.flip,esi
@@ -1480,8 +1482,8 @@ void TriangleSetup_ZPTI(brp_vertex *v0, brp_vertex *v1, brp_vertex *v2) {
 
 		// SETUP_FLOAT_PARAM C_U,pu,fp_conv_d16
 		// SETUP_FLOAT_PARAM C_V,pv,fp_conv_d16
-		SETUP_FLOAT_PARAM(C_U,"_u",&workspace.s_u_double,&workspace.d_u_x_double,fp_conv_d16, 0);
-		SETUP_FLOAT_PARAM(C_V,"_v",&workspace.s_v_double,&workspace.d_v_x_double,fp_conv_d16, 0);
+		SETUP_FLOAT_PARAM(C_U,"_u",(fp64_t*)&workspace.s_u_double,(fp64_t*)&workspace.d_u_x_double,fp_conv_d16, 0);
+		SETUP_FLOAT_PARAM(C_V,"_v",(fp64_t*)&workspace.s_v_double,(fp64_t*)&workspace.d_v_x_double,fp_conv_d16, 0);
 		//stc
 		x86_state.cf = 1;
 	} else {
@@ -1496,9 +1498,9 @@ void TriangleSetup_ZPTI_NOCHEAT(brp_vertex *v0, brp_vertex *v1, brp_vertex *v2) 
         return;
     }
 	//SETUP_FLOAT_PARAM C_SZ,pz,fp_conv_d16,1
-	SETUP_FLOAT_PARAM(C_SZ,"_z",&workspace.s_z_double,&workspace.d_z_x_double,fp_conv_d16,1);
+	SETUP_FLOAT_PARAM(C_SZ,"_z",(fp64_t*)&workspace.s_z_double,(fp64_t*)&workspace.d_z_x_double,fp_conv_d16,1);
     // SETUP_FLOAT_PARAM C_I,pi,fp_conv_d16
-    SETUP_FLOAT_PARAM(C_I,"_i",&workspace.s_i_double,&workspace.d_i_x_double,fp_conv_d16, 0);
+    SETUP_FLOAT_PARAM(C_I,"_i",(fp64_t*)&workspace.s_i_double,(fp64_t*)&workspace.d_i_x_double,fp_conv_d16, 0);
     // mov		esi,top_vertex
     esi.ptr_v = top_mid_bot_vertices[0];
     // mov		edi,mid_vertex

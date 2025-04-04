@@ -238,8 +238,8 @@ static br_error BR_CMETHOD_DECL(br_buffer_stored_gl, update)(struct br_buffer_st
     }
 }
 
-static void BR_CMETHOD_DECL(br_buffer_stored_gl, free)(br_object* _self) {
-    br_buffer_stored* self = (br_buffer_stored*)_self;
+static void BR_CMETHOD_DECL(br_buffer_stored_gl, free)(br_object* arg_self) {
+    br_buffer_stored* self = (br_buffer_stored*)arg_self;
 
     glDeleteTextures(1, &self->gl_tex);
     self->gl_tex = 0;
@@ -269,8 +269,8 @@ static br_size_t BR_CMETHOD_DECL(br_buffer_stored_gl, space)(br_object* self) {
     return BrResSizeTotal(self);
 }
 
-static struct br_tv_template* BR_CMETHOD_DECL(br_buffer_stored_gl, templateQuery)(br_object* _self) {
-    return ((br_buffer_stored*)_self)->templates;
+static struct br_tv_template* BR_CMETHOD_DECL(br_buffer_stored_gl, templateQuery)(br_object* arg_self) {
+    return ((br_buffer_stored*)arg_self)->templates;
 }
 
 GLuint BufferStoredGLGetTexture(br_buffer_stored* self) {

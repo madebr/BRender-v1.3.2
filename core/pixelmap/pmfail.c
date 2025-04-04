@@ -95,7 +95,7 @@ br_error BR_CMETHOD_DECL(br_device_pixelmap_fail, line)(br_device_pixelmap* self
     return BRE_FAIL;
 }
 
-br_error BR_CMETHOD(br_device_pixelmap_fail, copyBits)(br_device_pixelmap* _self, br_point* point, br_uint_8* src,
+br_error BR_CMETHOD(br_device_pixelmap_fail, copyBits)(br_device_pixelmap* self, br_point* point, br_uint_8* src,
     br_uint_16 s_stride, br_rectangle* bit_rect, br_uint_32 colour) {
     return BRE_FAIL;
 }

@@ -575,6 +575,7 @@ void BrSetupClipPlanes(br_actor* world, br_matrix34* world_to_view, br_int_32 w2
 void BrSetupEnvironment(br_actor* world, br_matrix34* world_to_view, br_int_32 w2vt) {
     br_matrix34 view_to_this, this_to_view;
     br_token h = BRT_DONT_CARE;
+    br_value v;
 
     ASSERT_MESSAGE("BrSetupEnvironment NULL pointer to actor", world != NULL);
     ASSERT_MESSAGE("BrSetupEnvironment NULL pointer", world_to_view != NULL);
@@ -599,9 +600,13 @@ void BrSetupEnvironment(br_actor* world, br_matrix34* world_to_view, br_int_32 w
     /*
      * Send to renderer
      */
-    if (h != BRT_DONT_CARE)
-        RendererPartSet(v1db.renderer, BRT_MATRIX, 0, BRT_AS_MATRIX34_SCALAR(VIEW_TO_ENVIRONMENT), (br_value){ .m34 = &view_to_this });
-    RendererPartSet(v1db.renderer, BRT_MATRIX, 0, BRT_VIEW_TO_ENVIRONMENT_HINT_T, (br_value){ .t = h });
+    if (h != BRT_DONT_CARE) {
+
+        v.m34 = &view_to_this;
+        RendererPartSet(v1db.renderer, BRT_MATRIX, 0, BRT_AS_MATRIX34_SCALAR(VIEW_TO_ENVIRONMENT), v);
+    }
+    v.t = h;
+    RendererPartSet(v1db.renderer, BRT_MATRIX, 0, BRT_VIEW_TO_ENVIRONMENT_HINT_T, v);
 }
 
 /*

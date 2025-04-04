@@ -72,6 +72,7 @@ void BR_ASM_CALL RenderForceFront4(struct brp_block *block,
 	v[2].comp[C_SZ] = BR_SCALAR(0.0);
 	v[3].comp[C_SZ] = BR_SCALAR(0.0);
 
-	block->chain->render(block->chain, v+0, v+1, v+2, v+3, NULL, NULL, NULL);
+	// Cast is done for satisfying
+	block->chain->render(block->chain, v+0, v+1, v+2, (br_uint_16*)(v+3), NULL, NULL, NULL);
 }
 

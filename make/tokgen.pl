@@ -1,12 +1,18 @@
+#!/usr/bin/env perl
+
+use strict;
 #
 # Generate initial data structures and header file for pre-defined tokens
 #
 
-$token_prefix = "BRT_";
-$current = 1;
+my $token_prefix = "BRT_";
+my $current = 1;
 
 # Read existing token ids
 #
+
+my %token_val;
+my %token_id;
 
 open(DB,"<tokens.db");
 
@@ -30,6 +36,10 @@ while (<DB>) {
 
 close(DB);
 
+my %type_ext;
+my %type_tok;
+my %type_member;
+
 # Read all tokens into an array
 #
 while (<>) {
@@ -40,6 +50,8 @@ while (<>) {
 	# Ignore comments
 	#
 	next if(/^#/);
+
+        my $name;
 
 	# Look for a type definition
 	#
@@ -70,8 +82,8 @@ while (<>) {
 
 		die "Unknown type: $2" unless $type_tok{$2} ;
 
-		$name = "\U$1$type_ext{$2}";
-		$value = $2;
+		my $name = "\U$1$type_ext{$2}";
+		my $value = $2;
 
 		if(!$token_val{$name}) {
 			$token_val{$name} = $value;
@@ -99,7 +111,7 @@ open(STDOUT,">pretok.h");
 typedef enum {
 END
 
-foreach $t (sort(keys %token_val)) {
+foreach my $t (sort(keys %token_val)) {
 	printf("	%-30s = %8s,\n",
 		"$token_prefix$t",
 		"$token_id{$t}");
@@ -110,7 +122,7 @@ foreach $t (sort(keys %token_val)) {
 #else
 END
 
-foreach $t (sort(keys %token_val)) {
+foreach my $t (sort(keys %token_val)) {
 	printf("#define %-30s %8s\n",
 		"$token_prefix$t",
 		"$token_id{$t}");
@@ -122,8 +134,18 @@ END
 
 # Spit out some macros for glueing a token base name to a type
 #
-foreach $t (sort(keys %type_tok)) {
+foreach my $t (sort(keys %type_tok)) {
 	print("#define BRT_AS_$type_tok{$t}(tok)	BRT_##tok##$type_ext{$t}\n") if ($type_ext{$t});
+}
+close(STDOUT);
+
+# Assembly include fule
+#
+open(STDOUT,">pretok.inc");
+foreach my $t (sort(keys %token_val)) {
+	printf("%-35s EQU %8s\n",
+		"$token_prefix$t",
+		"$token_id{$t}");
 }
 close(STDOUT);
 
@@ -131,8 +153,8 @@ close(STDOUT);
 #
 open(STDOUT,">pretok.c");
 
-foreach $t (sort(keys %token_val)) {
-	$len = length($t) - length($type_ext{$token_val{$t}});
+foreach my $t (sort(keys %token_val)) {
+	my $len = length($t) - length($type_ext{$token_val{$t}});
 
 	printf("\t{ {0,}, %-32s%-24s%-32s%8d},\n",
 		"\"$t\",",
@@ -149,8 +171,8 @@ close(STDOUT);
 #
 open(STDOUT,">toktype.c");
 
-foreach $t (sort({length($type_ext{$b}) <=> length($type_ext{$a})} keys %type_tok)) {
-
+foreach my $t (sort({length($type_ext{$b}) <=> length($type_ext{$a})} keys %type_tok)) {
+        my $tsize;
 	# https://github.com/crocguy0688/CrocDE-BRender adds size of each token type
 	if($type_member{$t}) {
 		$tsize = "sizeof(((br_value*)0)->$type_member{$t})";
@@ -171,7 +193,7 @@ close(STDOUT);
 #
 open(STDOUT,">tokens.new");
 
-foreach $t (sort(keys %token_val)) {
+foreach my $t (sort(keys %token_val)) {
 	printf("%s %s %s\n", $t, $token_val{$t}, $token_id{$t});
 }
 printf("=%d\n",$current);

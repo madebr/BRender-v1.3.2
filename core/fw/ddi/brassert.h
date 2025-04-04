@@ -14,6 +14,9 @@
  * This file should _NOT_ have checks for single inclusion -
  * it is legitimate to re-include it with DEBUG or PARANOID set diffently
  */
+
+#include "compiler.h"
+
 #undef ASSERT
 
 #if DEBUG
@@ -34,7 +37,7 @@ void BR_RESIDENT_ENTRY _BrAssert(char *condition, char *file, unsigned line);
 #if PARANOID
 #define UASSERT(e)	((void)((e) || (_BrUAssert(#e,__FILE__,__LINE__),1)))
 #define UASSERT_MESSAGE(m,e)      ((void)((e) || (_BrUAssert(m " : " #e,__FILE__,__LINE__),1)))
-void /*BR_RESIDENT_ENTRY*/ _BrUAssert(char *condition, char *file, unsigned line);
+void BR_RESIDENT_ENTRY _BrUAssert(char *condition, char *file, unsigned line);
 #define UVERIFY(f) ASSERT(f)
 #else
 #define UASSERT(ignore)	((void) 0)

@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.23)
-project(BRender)
+project(BRender C)
+
+if(DOS)
+    enable_language(ASM_MASM)
+    add_compile_definitions(-D__GO32__=1 -D__DPMI__=1 -D__DOS__=1)
+    add_compile_options(-U__unix__)
+endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 

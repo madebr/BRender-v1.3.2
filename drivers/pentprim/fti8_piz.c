@@ -39,6 +39,7 @@
 #define work_pi_d_carry			workspace.d_i_y_1
 
 void TRAPEZIUM_ZI_I8_D16(int32_t *half_count, uint32_t *half_i, uint32_t *half_d_i, int dirn) {
+    int ja_flag;
 
     // mov	ebx,work_&half&_count	; check for empty trapezium
     ebx.int_val = *half_count;
@@ -132,7 +133,7 @@ pixel_loop:
     // adc_&dirn	eax,0		; carry into integer part of i
     ADC_D(eax.v, 0, dirn);
     // cmp	edx,ebx				; compare z (identical junk in top words does not affect result)
-    int ja_flag = edx.v > ebx.v;
+    ja_flag = edx.v > ebx.v;
 
     // mov	ebx,work_pz_grad_x
     ebx.v = work_pz_grad_x;

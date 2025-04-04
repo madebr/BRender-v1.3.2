@@ -18,13 +18,19 @@ target_include_directories(brender-inc-ddi INTERFACE
         $<INSTALL_INTERFACE:ddi>
         )
 
+if(WATCOM)
+    set(preprocess_options -p)
+else()
+    set(preprocess_options -E)
+endif()
+
 add_custom_command(
         OUTPUT dev_objs.cgh
         # This will work with MSVC and GCC
-        COMMAND "${CMAKE_C_COMPILER}" -D__CLASSGEN__ -E "${CMAKE_CURRENT_SOURCE_DIR}/dev_objs.hpp" > dev_objs.tmp
+        COMMAND "${CMAKE_C_COMPILER}" -D__CLASSGEN__ ${preprocess_options} "${CMAKE_CURRENT_SOURCE_DIR}/dev_objs.hpp" > dev_objs.tmp
         COMMAND "${PERL_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../../make/classgen.pl" < dev_objs.tmp > dev_objs.cgh
         MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/dev_objs.hpp"
-        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../../make/classgen.pl"
+        DEPENDS "${PERL_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../../make/classgen.pl"
         BYPRODUCTS dev_objs.tmp
 )
 

@@ -149,6 +149,7 @@ br_device_pixelmap* DevicePixelmapGLAllocateFront(br_device* dev, br_output_faci
     br_device_pixelmap* self;
     br_int_32 count;
     GLint red_bits = 0, grn_bits = 0, blu_bits = 0, alpha_bits = 0;
+    GLuint i;
     struct pixelmapNewTokens pt = {
         .width = -1,
         .height = -1,
@@ -221,7 +222,7 @@ br_device_pixelmap* DevicePixelmapGLAllocateFront(br_device* dev, br_output_faci
     glGetIntegerv(GL_NUM_EXTENSIONS, &self->asFront.gl_num_extensions);
 
     self->asFront.gl_extensions = BrResAllocate(self, sizeof(char*) * (self->asFront.gl_num_extensions + 1), BR_MEMORY_DRIVER);
-    for (GLuint i = 0; i < self->asFront.gl_num_extensions; ++i) {
+    for (i = 0; i < self->asFront.gl_num_extensions; ++i) {
         const GLubyte* ext = glGetStringi(GL_EXTENSIONS, i);
         self->asFront.gl_extensions[i] = BrResStrDup(self->asFront.gl_extensions, (char*)ext);
     }
@@ -254,8 +255,8 @@ cleanup_context:
     return NULL;
 }
 
-static void BR_CMETHOD_DECL(br_device_pixelmap_glf, free)(br_object* _self) {
-    br_device_pixelmap* self = (br_device_pixelmap*)_self;
+static void BR_CMETHOD_DECL(br_device_pixelmap_glf, free)(br_object* arg_self) {
+    br_device_pixelmap* self = (br_device_pixelmap*)arg_self;
 
     //BrLogPrintf("GLREND: Freeing %s\n", self->pm_identifier);
 
@@ -298,8 +299,8 @@ br_size_t BR_CMETHOD_DECL(br_device_pixelmap_glf, space)(br_object* self) {
     return sizeof(br_device_pixelmap);
 }
 
-struct br_tv_template* BR_CMETHOD_DECL(br_device_pixelmap_glf, templateQuery)(br_object* _self) {
-    br_device_pixelmap* self = (br_device_pixelmap*)_self;
+struct br_tv_template* BR_CMETHOD_DECL(br_device_pixelmap_glf, templateQuery)(br_object* arg_self) {
+    br_device_pixelmap* self = (br_device_pixelmap*)arg_self;
 
     if (self->device->templates.devicePixelmapFrontTemplate == NULL)
         self->device->templates.devicePixelmapFrontTemplate = BrTVTemplateAllocate(

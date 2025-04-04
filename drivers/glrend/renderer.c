@@ -139,8 +139,8 @@ void BR_CMETHOD_DECL(br_renderer_gl, sceneEnd)(br_renderer* self) {
     GL_CHECK_ERROR();
 }
 
-static void BR_CMETHOD_DECL(br_renderer_gl, free)(br_object* _self) {
-    br_renderer* self = (br_renderer*)_self;
+static void BR_CMETHOD_DECL(br_renderer_gl, free)(br_object* arg_self) {
+    br_renderer* self = (br_renderer*)arg_self;
 
     BrPoolFree(self->state_pool);
 
@@ -171,8 +171,8 @@ static int BR_CMETHOD_DECL(br_renderer_gl, space)(br_object* self) {
     return sizeof(br_renderer);
 }
 
-static struct br_tv_template* BR_CMETHOD_DECL(br_renderer_gl, templateQuery)(br_object* _self) {
-    br_renderer* self = (br_renderer*)_self;
+static struct br_tv_template* BR_CMETHOD_DECL(br_renderer_gl, templateQuery)(br_object* arg_self) {
+    br_renderer* self = (br_renderer*)arg_self;
 
     if (self->device->templates.rendererTemplate == NULL) {
         self->device->templates.rendererTemplate = BrTVTemplateAllocate(self->device, rendererTemplateEntries,
@@ -442,6 +442,7 @@ static br_error BR_CMETHOD_DECL(br_renderer_gl, stateDefault)(br_renderer* self,
 
 static br_error BR_CMETHOD_DECL(br_renderer_gl, stateMask)(br_renderer* self, br_uint_32* mask, br_token* parts, int n_parts) {
     br_uint_32 m;
+    int i;
 
     (void)self;
 
@@ -449,7 +450,7 @@ static br_error BR_CMETHOD_DECL(br_renderer_gl, stateMask)(br_renderer* self, br
         return BRE_FAIL;
 
     m = 0;
-    for (int i = 0; i < n_parts; i++) {
+    for (i = 0; i < n_parts; i++) {
         switch (parts[i]) {
         case BRT_SURFACE:
             m |= MASK_STATE_SURFACE;

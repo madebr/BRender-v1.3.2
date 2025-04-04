@@ -18,7 +18,7 @@ static br_boolean deviceEnum(br_device *dev, br_device_enum_cbfn *cbfn,
     br_size_t s;
     void *mem;
     br_token_value *tvp;
-    char *identifier = NULL, *creator = NULL, *title = NULL, *product = NULL,
+    const char *identifier = NULL, *creator = NULL, *title = NULL, *product = NULL,
          *product_version = NULL;
     br_uint_32 version = 0;
     br_boolean terminate;

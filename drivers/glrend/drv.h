@@ -4,7 +4,9 @@
 #ifndef _DRV_H_
 #define _DRV_H_
 
+#ifndef __WATCOMC__
 #include <stdalign.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
