@@ -1,7 +1,7 @@
 #include "brender.h"
 #include "host.h"
 
-void CPUInfo(br_token *cpu_type, br_uint_32 *features) {
+void BR_ASM_CALL CPUInfo(br_token *cpu_type, br_uint_32 *features) {
     *cpu_type = BRT_INTEL_PENTIUM;
     *features = 0;
 }

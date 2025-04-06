@@ -6,7 +6,7 @@
 #include <brender.h>
 #include <brassert.h>
 
-br_uint_8 bit_to_mask_s[] = {
+static br_uint_8 bit_to_mask_s[] = {
     0xFF, /* 0b11111111 */
     0x7F, /* 0b01111111 */
     0x3F, /* 0b00111111 */
@@ -18,7 +18,7 @@ br_uint_8 bit_to_mask_s[] = {
     0x00  /* 0b00000000 */
 };
 
-br_uint_8 bit_to_mask_e[] = {
+static br_uint_8 bit_to_mask_e[] = {
     0x00, /* 0b00000000 */
     0x80, /* 0b10000000 */
     0xC0, /* 0b11000000 */
@@ -133,7 +133,7 @@ done_row:
     } while(nrows);
 }
 
-void _MemCopyBits_A(
+void BR_ASM_CALL _MemCopyBits_A(
 	char *dest, br_uint_32 dest_qual, br_int_32 d_stride,
 	br_uint_8 *src,br_uint_32 s_stride,
 	br_uint_32 start_bit,br_uint_32 end_bit,
@@ -149,7 +149,7 @@ void _MemCopyBits_A(
         COPY_BITS_CORE_1(dest, d_stride, src, s_stride, nrows, bpp, colour, himask, lomask);
 }
 
-void _MemPixelSet(char *dest, br_uint_32 dest_qual, br_uint_32 bytes, br_uint_32 colour)
+void BR_ASM_CALL _MemPixelSet(char *dest, br_uint_32 dest_qual, br_uint_32 bytes, br_uint_32 colour)
 {
     switch(bytes) {
         case 1:
@@ -171,7 +171,7 @@ void _MemPixelSet(char *dest, br_uint_32 dest_qual, br_uint_32 bytes, br_uint_32
     }
 }
 
-br_uint_32 _MemPixelGet(char *dest, br_uint_32 dest_qual, br_uint_32 bytes)
+br_uint_32 BR_ASM_CALL _MemPixelGet(char *dest, br_uint_32 dest_qual, br_uint_32 bytes)
 {
     switch(bytes) {
         case 1:
@@ -188,7 +188,7 @@ br_uint_32 _MemPixelGet(char *dest, br_uint_32 dest_qual, br_uint_32 bytes)
     }
 }
 
-void _MemFill_A(uint8_t *dest, br_uint_32 dest_qual, br_uint_32 pixels, br_uint_32 bpp, br_uint_32 colour)
+void BR_ASM_CALL _MemFill_A(uint8_t *dest, br_uint_32 dest_qual, br_uint_32 pixels, br_uint_32 bpp, br_uint_32 colour)
 {
     /* 32-bit */
     if(bpp == 4) {
@@ -219,7 +219,7 @@ void _MemFill_A(uint8_t *dest, br_uint_32 dest_qual, br_uint_32 pixels, br_uint_
     }
 }
 
-void _MemRectCopy_A(char *dest,
+void BR_ASM_CALL _MemRectCopy_A(char *dest,
 	br_uint_32 dest_qual, char *src, br_uint_32 src_qualifier,
 	br_uint_32 pwidth, br_uint_32 pheight,
 	br_int_32 d_stride,br_int_32 s_stride,
@@ -241,12 +241,12 @@ void _MemRectCopy_A(char *dest,
 }
 
 /* From IDA */
-void _MemCopy_A(char *dest, br_uint_32 dest_qual, char *src, br_uint_32 src_qualifier, br_uint_32 pixels, br_uint_32 bpp)
+void BR_ASM_CALL _MemCopy_A(char *dest, br_uint_32 dest_qual, char *src, br_uint_32 src_qualifier, br_uint_32 pixels, br_uint_32 bpp)
 {
     memcpy(dest, src, pixels * bpp);
 }
 
-void _MemRectFill_A(char *dest,
+void BR_ASM_CALL _MemRectFill_A(char *dest,
 	br_uint_32 dest_qual, br_uint_32 pwidth, br_uint_32 pheight,
 	br_int_32 d_stride, br_uint_32 bpp, br_uint_32 colour) {
 
@@ -260,7 +260,7 @@ void _MemRectFill_A(char *dest,
     }
 }
 
-void _MemRectCopySourceColourKey0_A(char *dest,
+void BR_ASM_CALL _MemRectCopySourceColourKey0_A(char *dest,
 	br_uint_32 dest_qual, char *src, br_uint_32 src_qualifier,
 	br_uint_32 pwidth, br_uint_32 pheight,
 	br_int_32 d_stride,br_int_32 s_stride,
@@ -271,12 +271,12 @@ void _MemRectCopySourceColourKey0_A(char *dest,
 }
 
 
-void _MemCopySourceColourKey0_A(char *dest, br_uint_32 dest_qual, char *src, br_uint_32 src_qualifier, br_uint_32 pixels, br_uint_32 bpp) {
+void BR_ASM_CALL _MemCopySourceColourKey0_A(char *dest, br_uint_32 dest_qual, char *src, br_uint_32 src_qualifier, br_uint_32 pixels, br_uint_32 bpp) {
     // Not implemented
     BrAbort();
 }
 
-br_uint_16 _GetSysQual(void) {
+br_uint_16 BR_ASM_CALL _GetSysQual(void) {
     return 0;
 }
 

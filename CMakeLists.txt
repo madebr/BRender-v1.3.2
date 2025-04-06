@@ -7,6 +7,21 @@ if(DOS)
     add_compile_options(-U__unix__)
 endif()
 
+if(WATCOM)
+    add_compile_definitions(-Dsqrtf=sqrt)
+    add_compile_definitions(-Dsinf=sin)
+    add_compile_definitions(-Dcosf=cos)
+    add_compile_definitions(-Dfabsf=fabs)
+    add_compile_definitions(-Datanf=atan)
+    add_compile_definitions(-Dfmodf=fmod)
+    add_compile_definitions(-Datan2f=atan2)
+    add_compile_definitions(-Dasinf=asin)
+    add_compile_definitions(-Dpowf=pow)
+    add_compile_definitions(-Dfmaxf=fmax)
+    add_compile_definitions(-Dldexpf=ldexp)
+    add_compile_definitions(-Dceilf=ceil)
+endif()
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 

@@ -35,12 +35,18 @@ set(PIXELMAP_FILES
         pmsetup.c
         quantize.c
         scale.c
-        cmemloops.c
 
         fnt3x5.c
         fntp4x6.c
         fntp7x9.c
         )
+if(DOS)
+    set(pixelmap_assembly_sources memloops.asm)
+    set_property(SOURCE ${pixelmap_assembly_sources} PROPERTY LANGUAGE ASM_MASM)
+    list(APPEND PIXELMAP_FILES ${pixelmap_assembly_sources})
+else()
+    list(APPEND PIXELMAP_FILES cmemloops.c)
+endif()
 
 add_library(pixelmap OBJECT ${PIXELMAP_FILES})
 
