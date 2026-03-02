@@ -20,7 +20,7 @@ extern "C" {
  */
 br_error DeviceMystInitialise(br_device * dev);
 extern br_device DriverDeviceMyst;
-char * BR_CMETHOD_DECL(br_object_mystique, identifier)( br_object *self);
+const char * BR_CMETHOD_DECL(br_object_mystique, identifier)( br_object *self);
 br_device * BR_CMETHOD_DECL(br_object_mystique, device)( br_object *self);
 
 /*

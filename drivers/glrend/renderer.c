@@ -151,7 +151,7 @@ static void BR_CMETHOD_DECL(br_renderer_gl, free)(br_object* _self) {
     BrResFreeNoCallback(self);
 }
 
-static char* BR_CMETHOD_DECL(br_renderer_gl, identifier)(br_object* self) {
+static const char* BR_CMETHOD_DECL(br_renderer_gl, identifier)(br_object* self) {
     return (char*)((br_renderer*)self)->identifier;
 }
 

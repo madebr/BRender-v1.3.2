@@ -18,7 +18,7 @@ extern br_device DriverDeviceVirtualFB;
 /*
  * object.c
  */
-char* BR_CMETHOD_DECL(br_object_virtualfb, identifier)(br_object* self);
+const char* BR_CMETHOD_DECL(br_object_virtualfb, identifier)(br_object* self);
 br_device* BR_CMETHOD_DECL(br_object_virtualfb, device)(br_object* self);
 
 /*

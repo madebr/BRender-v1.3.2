@@ -212,7 +212,7 @@ static void BR_CMETHOD_DECL(br_device_pixelmap_mem, free)(br_device_pixelmap *se
 	BrResFree(self);
 }
 
-static char * BR_CMETHOD_DECL(br_device_pixelmap_mem, identifier)(br_device_pixelmap *self)
+static const char * BR_CMETHOD_DECL(br_device_pixelmap_mem, identifier)(br_device_pixelmap *self)
 {
 	return self->pm_identifier;
 }

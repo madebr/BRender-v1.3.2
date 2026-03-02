@@ -185,7 +185,7 @@ static void BR_CMETHOD(br_geometry_stored_gl, free)(br_object* _self) {
     BrResFreeNoCallback(self);
 }
 
-static char* BR_CMETHOD(br_geometry_stored_gl, identifier)(br_object* self) {
+static const char* BR_CMETHOD(br_geometry_stored_gl, identifier)(br_object* self) {
     return ((br_geometry_stored*)self)->identifier;
 }
 

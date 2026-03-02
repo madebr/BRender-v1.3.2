@@ -295,7 +295,7 @@ void BR_PUBLIC_ENTRY BrMatrix4ApplyV(br_vector4 *A, br_vector3 *B, br_matrix4 *C
 /*
  * vec_a = vec_b * mat
  */
-void BR_PUBLIC_ENTRY BrMatrix4TApply(br_vector4 *A, br_vector4 *B, br_matrix4 *C)
+void BR_PUBLIC_ENTRY BrMatrix4TApply(br_vector4 *A, const br_vector4 *B, const br_matrix4 *C)
 {
         UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
         UASSERT_MESSAGE("Source vector is NULL", B != NULL);
@@ -311,7 +311,7 @@ void BR_PUBLIC_ENTRY BrMatrix4TApply(br_vector4 *A, br_vector4 *B, br_matrix4 *C
 /*
  * [a b c d] = [ e f g 1 ] . M
  */
-void BR_PUBLIC_ENTRY BrMatrix4TApplyP(br_vector4 *A, br_vector3 *B, br_matrix4 *C)
+void BR_PUBLIC_ENTRY BrMatrix4TApplyP(br_vector4 *A, const br_vector3 *B, const  br_matrix4 *C)
 {
         UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
         UASSERT_MESSAGE("Source vector is NULL", B != NULL);
@@ -327,7 +327,7 @@ void BR_PUBLIC_ENTRY BrMatrix4TApplyP(br_vector4 *A, br_vector3 *B, br_matrix4 *
 /*
  * [a b c d] = [ e f g 0 ] . M
  */
-void BR_PUBLIC_ENTRY BrMatrix4TApplyV(br_vector4 *A, br_vector3 *B, br_matrix4 *C)
+void BR_PUBLIC_ENTRY BrMatrix4TApplyV(br_vector4 *A, const br_vector3 *B, const br_matrix4 *C)
 {
         UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
         UASSERT_MESSAGE("Source vector is NULL", B != NULL);

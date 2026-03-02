@@ -233,7 +233,7 @@ br_device * BR_EXPORT BrDrv1Begin(char *arguments)
 /*
  * Get identifier associated with a object
  */
-char * BR_CMETHOD_DECL(br_object_mystique, identifier)(br_object *self)
+const char * BR_CMETHOD_DECL(br_object_mystique, identifier)(br_object *self)
 {
 	return self->identifier;
 }

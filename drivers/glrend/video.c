@@ -24,7 +24,7 @@ int glContextIsOpenGLES() {
 // Wrap opengles only lines with ##ifdef GL_ES ... ##endif
 // Wrap opengl core only lines with ##ifdef GL_CORE ... ##endif
 // Note the double "##" to avoid collision with the standard glsl preprocessor
-char* preprocessShader(char* shader, size_t size) {
+char* preprocessShader(const char* shader, size_t size) {
     int i;
     char *processed;
     int line_i;

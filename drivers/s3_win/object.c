@@ -21,7 +21,7 @@ BR_RCS_ID("$Id: object.c 1.1 1997/12/10 16:51:07 jon Exp $");
 /*
  * Get the identifier associated with a object
  */
-char * BR_CMETHOD_DECL(br_object_s3, identifier)(br_object *self)
+const char * BR_CMETHOD_DECL(br_object_s3, identifier)(br_object *self)
 {
 	return self->identifier;
 }

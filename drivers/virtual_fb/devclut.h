@@ -19,7 +19,7 @@ typedef struct br_device_clut {
     /*
      * Dispatch table
      */
-    struct br_device_clut_dispatch* dispatch;
+    const struct br_device_clut_dispatch* dispatch;
 
     /*
      * Standard handle identifier

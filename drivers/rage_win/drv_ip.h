@@ -23,7 +23,7 @@ extern br_device DriverDeviceATI;
 /*
  * object.c
  */
-char * BR_CMETHOD_DECL(br_object_ati, identifier)(br_object *self);
+const char * BR_CMETHOD_DECL(br_object_ati, identifier)(br_object *self);
 br_device *	BR_CMETHOD_DECL(br_object_ati, device)(br_object *self);
 
 /*

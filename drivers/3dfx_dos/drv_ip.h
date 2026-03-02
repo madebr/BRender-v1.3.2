@@ -17,7 +17,7 @@ extern "C" {
  */
 br_error Device3DfxInitialise(br_device * dev);
 extern br_device DriverDevice3Dfx;
-char * BR_CMETHOD_DECL(br_object_3dfx, identifier)( br_object *self);
+const char * BR_CMETHOD_DECL(br_object_3dfx, identifier)( br_object *self);
 br_device *	BR_CMETHOD_DECL(br_object_3dfx, device)( br_object *self);
 
 /*

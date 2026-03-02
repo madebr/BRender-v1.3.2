@@ -284,9 +284,9 @@ void BR_PUBLIC_ENTRY BrMatrix4ApplyV(br_vector4 *A, br_vector3 *B, br_matrix4 *C
 void BR_PUBLIC_ENTRY BrMatrix4ApplyP(br_vector4 *A, br_vector3 *B, br_matrix4 *C);
 void BR_PUBLIC_ENTRY BrMatrix4Apply(br_vector4 *A,  br_vector4 *B, br_matrix4 *C);
 
-void BR_PUBLIC_ENTRY BrMatrix4TApplyV(br_vector4 *A, br_vector3 *B, br_matrix4 *C);
-void BR_PUBLIC_ENTRY BrMatrix4TApplyP(br_vector4 *A, br_vector3 *B, br_matrix4 *C);
-void BR_PUBLIC_ENTRY BrMatrix4TApply(br_vector4 *A,  br_vector4 *B, br_matrix4 *C);
+void BR_PUBLIC_ENTRY BrMatrix4TApplyV(br_vector4 *A, const br_vector3 *B, const br_matrix4 *C);
+void BR_PUBLIC_ENTRY BrMatrix4TApplyP(br_vector4 *A, const br_vector3 *B, const br_matrix4 *C);
+void BR_PUBLIC_ENTRY BrMatrix4TApply(br_vector4 *A,  const br_vector4 *B, const br_matrix4 *C);
 
 void BR_PUBLIC_ENTRY BrMatrix4Pre34(br_matrix4 *A, br_matrix34 *B);
 void BR_PUBLIC_ENTRY BrMatrix4Mul34(br_matrix4 *A, br_matrix34 *B, br_matrix4 *C);

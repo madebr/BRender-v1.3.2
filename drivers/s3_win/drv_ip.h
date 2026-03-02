@@ -23,7 +23,7 @@ extern br_device DriverDeviceS3;
 /*
  * object.c
  */
-char * BR_CMETHOD_DECL(br_object_s3, identifier)(br_object *self);
+const char * BR_CMETHOD_DECL(br_object_s3, identifier)(br_object *self);
 br_device *	BR_CMETHOD_DECL(br_object_s3, device)(br_object *self);
 
 /*

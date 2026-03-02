@@ -20,7 +20,7 @@ static const struct br_device_clut_dispatch deviceClutDispatch;
  */
 #define F(f) offsetof(struct br_device_clut, f)
 
-static const struct br_tv_template_entry deviceClutTemplateEntries[] = {
+static struct br_tv_template_entry deviceClutTemplateEntries[] = {
     {
         BRT_IDENTIFIER_CSTR,
         0,
