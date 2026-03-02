@@ -20,7 +20,7 @@ BR_RCS_ID("$Id: matrix4.c 1.1 1997/12/10 16:41:22 jon Exp $")
 /*
  * A = B
  */
-void BR_PUBLIC_ENTRY BrMatrix4Copy(br_matrix4 *A, br_matrix4 *B)
+void BR_PUBLIC_ENTRY BrMatrix4Copy(br_matrix4 *A, const br_matrix4 *B)
 {
         UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
         UASSERT_MESSAGE("Source matrix is NULL", B != NULL);
@@ -34,7 +34,7 @@ void BR_PUBLIC_ENTRY BrMatrix4Copy(br_matrix4 *A, br_matrix4 *B)
 /*
  * A = B*C
  */
-void BR_PUBLIC_ENTRY BrMatrix4Mul(br_matrix4 *A, br_matrix4 *B, br_matrix4 *C)
+void BR_PUBLIC_ENTRY BrMatrix4Mul(br_matrix4 *A, const br_matrix4 *B, const br_matrix4 *C)
 {
         UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
         UASSERT_MESSAGE("Left Hand Source matrix is NULL", B != NULL);
@@ -93,7 +93,7 @@ void BR_PUBLIC_ENTRY BrMatrix4Scale(br_matrix4 *mat, br_scalar sx, br_scalar sy,
  *
  * returns the determinant
  */
-br_scalar BR_PUBLIC_ENTRY BrMatrix4Inverse(br_matrix4 *A, br_matrix4 *B)
+br_scalar BR_PUBLIC_ENTRY BrMatrix4Inverse(br_matrix4 *A, const br_matrix4 *B)
 {
     int i, j;
     br_scalar det,idet;
@@ -145,7 +145,7 @@ static br_scalar Determinant3(
  * return determinant(mat)
  *
  */
-br_scalar BR_PUBLIC_ENTRY BrMatrix4Determinant(br_matrix4 *mat)
+br_scalar BR_PUBLIC_ENTRY BrMatrix4Determinant(const br_matrix4 *mat)
 {
     br_scalar a1,a2,a3,a4, b1,b2,b3,b4, c1,c2,c3,c4, d1,d2,d3,d4;
 
@@ -173,7 +173,7 @@ br_scalar BR_PUBLIC_ENTRY BrMatrix4Determinant(br_matrix4 *mat)
  * A = adjoint(B)
  */
 
-void BR_PUBLIC_ENTRY BrMatrix4Adjoint(br_matrix4 *A, br_matrix4 *B)
+void BR_PUBLIC_ENTRY BrMatrix4Adjoint(br_matrix4 *A, const br_matrix4 *B)
 {
     br_scalar a1, a2, a3, a4, b1, b2, b3, b4;
     br_scalar c1, c2, c3, c4, d1, d2, d3, d4;
@@ -247,7 +247,7 @@ void BR_PUBLIC_ENTRY BrMatrix4Perspective(br_matrix4 *mat,
 /*
  * vec_a = vec_b * mat
  */
-void BR_PUBLIC_ENTRY BrMatrix4Apply(br_vector4 *A, br_vector4 *B, br_matrix4 *C)
+void BR_PUBLIC_ENTRY BrMatrix4Apply(br_vector4 *A, const br_vector4 *B, const br_matrix4 *C)
 {
         UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
         UASSERT_MESSAGE("Source vector is NULL", B != NULL);
@@ -263,7 +263,7 @@ void BR_PUBLIC_ENTRY BrMatrix4Apply(br_vector4 *A, br_vector4 *B, br_matrix4 *C)
 /*
  * [a b c d] = [ e f g 1 ] . M
  */
-void BR_PUBLIC_ENTRY BrMatrix4ApplyP(br_vector4 *A, br_vector3 *B, br_matrix4 *C)
+void BR_PUBLIC_ENTRY BrMatrix4ApplyP(br_vector4 *A, const br_vector3 *B, const br_matrix4 *C)
 {
         UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
         UASSERT_MESSAGE("Source vector is NULL", B != NULL);
@@ -279,7 +279,7 @@ void BR_PUBLIC_ENTRY BrMatrix4ApplyP(br_vector4 *A, br_vector3 *B, br_matrix4 *C
 /*
  * [a b c d] = [ e f g 0 ] . M
  */
-void BR_PUBLIC_ENTRY BrMatrix4ApplyV(br_vector4 *A, br_vector3 *B, br_matrix4 *C)
+void BR_PUBLIC_ENTRY BrMatrix4ApplyV(br_vector4 *A, const br_vector3 *B, const br_matrix4 *C)
 {
         UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
         UASSERT_MESSAGE("Source vector is NULL", B != NULL);
@@ -340,7 +340,7 @@ void BR_PUBLIC_ENTRY BrMatrix4TApplyV(br_vector4 *A, const br_vector3 *B, const 
 	A->v[3] = BR_MAC3(B->v[0],C(3,0), B->v[1],C(3,1), B->v[2],C(3,2));
 }
 
-void BR_PUBLIC_ENTRY BrMatrix4Copy34(br_matrix4 *A, br_matrix34 *B)
+void BR_PUBLIC_ENTRY BrMatrix4Copy34(br_matrix4 *A, const br_matrix34 *B)
 {
         UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
         UASSERT_MESSAGE("Source matrix is NULL", B != NULL);
@@ -359,7 +359,7 @@ void BR_PUBLIC_ENTRY BrMatrix4Copy34(br_matrix4 *A, br_matrix34 *B)
 /*
  * A = B*C
  */
-void BR_PUBLIC_ENTRY BrMatrix4Mul34(br_matrix4 *A, br_matrix34 *B, br_matrix4 *C)
+void BR_PUBLIC_ENTRY BrMatrix4Mul34(br_matrix4 *A, const br_matrix34 *B, const br_matrix4 *C)
 {
         UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
         UASSERT_MESSAGE("Left Hand Source matrix is NULL", B != NULL);
@@ -389,7 +389,7 @@ void BR_PUBLIC_ENTRY BrMatrix4Mul34(br_matrix4 *A, br_matrix34 *B, br_matrix4 *C
 /*
  * A = B*A
  */
-void BR_PUBLIC_ENTRY BrMatrix4Pre34(br_matrix4 *A, br_matrix34 *B)
+void BR_PUBLIC_ENTRY BrMatrix4Pre34(br_matrix4 *A, const br_matrix34 *B)
 {
 	br_matrix4 C = *A;
 
@@ -428,7 +428,7 @@ void BR_PUBLIC_ENTRY BrMatrix4Orthographic(br_matrix4* mat, br_scalar left, br_s
     // clang-format on
 }
 
-void BR_PUBLIC_ENTRY BrMatrix4Copy23(br_matrix4* A, br_matrix23* B) {
+void BR_PUBLIC_ENTRY BrMatrix4Copy23(br_matrix4* A, const br_matrix23* B) {
     UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
     UASSERT_MESSAGE("Source matrix is NULL", B != NULL);
 

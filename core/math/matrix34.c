@@ -22,7 +22,7 @@ BR_RCS_ID("$Id: matrix34.c 1.7 1998/08/13 11:56:03 jon Exp $")
 /*
  * A = B
  */
-void BR_PUBLIC_ENTRY BrMatrix34Copy(br_matrix34 *A, br_matrix34 *B)
+void BR_PUBLIC_ENTRY BrMatrix34Copy(br_matrix34 *A, const br_matrix34 *B)
 {
 	UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
 	UASSERT_MESSAGE("Source matrix is NULL", B != NULL);
@@ -47,7 +47,7 @@ void BR_PUBLIC_ENTRY BrMatrix34Copy(br_matrix34 *A, br_matrix34 *B)
 /*
  * A = B*C
  */
-void BR_PUBLIC_ENTRY BrMatrix34Mul(br_matrix34 *A, br_matrix34 *B, br_matrix34 *C)
+void BR_PUBLIC_ENTRY BrMatrix34Mul(br_matrix34 *A, const br_matrix34 *B, const br_matrix34 *C)
 {
 	UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
 	UASSERT_MESSAGE("Left Hand Source matrix is NULL", B != NULL);
@@ -123,7 +123,7 @@ void BR_PUBLIC_ENTRY BrMatrix34RotateZ(br_matrix34 *mat, br_angle rz)
 /*
  * Rotation about an arbitary (normalised) axis
  */
-void BR_PUBLIC_ENTRY BrMatrix34Rotate(br_matrix34 *mat, br_angle r, br_vector3 *a)
+void BR_PUBLIC_ENTRY BrMatrix34Rotate(br_matrix34 *mat, br_angle r, const br_vector3 *a)
 {
 	br_scalar t,s,c;
 	br_scalar txy,txz,tyz,sx,sy,sz;
@@ -321,7 +321,7 @@ br_scalar BR_PUBLIC_ENTRY BrMatrix34Inverse(br_matrix34 *B, br_matrix34 *A)
 /*
  * Use float intermediates for invertion
  */
-br_scalar BR_PUBLIC_ENTRY BrMatrix34Inverse(br_matrix34 *B, br_matrix34 *A)
+br_scalar BR_PUBLIC_ENTRY BrMatrix34Inverse(br_matrix34 *B, const br_matrix34 *A)
 {
     double	idet,det;
     double	pos, neg, temp;
@@ -433,7 +433,7 @@ br_scalar BR_PUBLIC_ENTRY BrMatrix34Inverse(br_matrix34 *B, br_matrix34 *A)
  * -C A	  1
  *
  */
-void BR_PUBLIC_ENTRY BrMatrix34LPInverse(br_matrix34 *A, br_matrix34 *B)
+void BR_PUBLIC_ENTRY BrMatrix34LPInverse(br_matrix34 *A, const br_matrix34 *B)
 {
 	UASSERT_MESSAGE("Destination Matrix is NULL", A != NULL);
 	UASSERT_MESSAGE("Source Matrix is NULL", B != NULL);
@@ -459,7 +459,7 @@ void BR_PUBLIC_ENTRY BrMatrix34LPInverse(br_matrix34 *A, br_matrix34 *B)
     A(3,2) = -BR_MAC3(B(3,0),A(0,2), B(3,1),A(1,2), B(3,2),A(2,2));
 }
 
-void BR_PUBLIC_ENTRY BrMatrix34LPNormalise(br_matrix34 *A, br_matrix34 *B)
+void BR_PUBLIC_ENTRY BrMatrix34LPNormalise(br_matrix34 *A, const br_matrix34 *B)
 {
 	UASSERT_MESSAGE("Destination Matrix is NULL", A != NULL);
 	UASSERT_MESSAGE("Source Matrix is NULL", B != NULL);
@@ -537,7 +537,7 @@ void BR_PUBLIC_ENTRY BrMatrix34RollingBall(br_matrix34 *mat, int dx,int dy, int 
 /*
  * Find the transform that maps a 2 unit cube centred on origin to the given bounding box
  */
-br_matrix34 * BR_PUBLIC_ENTRY BrBoundsToMatrix34( br_matrix34 *mat, br_bounds *bounds)
+br_matrix34 * BR_PUBLIC_ENTRY BrBoundsToMatrix34( br_matrix34 *mat, const br_bounds *bounds)
 {
 	int i;
 	br_vector3 tr,sc;
@@ -568,7 +568,7 @@ br_matrix34 * BR_PUBLIC_ENTRY BrBoundsToMatrix34( br_matrix34 *mat, br_bounds *b
 	return mat;
 }
 
-void BR_PUBLIC_ENTRY BrMatrix34Copy4(br_matrix34 *A, br_matrix4 *B)
+void BR_PUBLIC_ENTRY BrMatrix34Copy4(br_matrix34 *A, const br_matrix4 *B)
 {
 	UASSERT_MESSAGE("Destination Matrix is NULL", A != NULL);
 	UASSERT_MESSAGE("Source Matrix is NULL", B != NULL);
@@ -585,7 +585,7 @@ void BR_PUBLIC_ENTRY BrMatrix34Copy4(br_matrix34 *A, br_matrix4 *B)
  * based on "Transforming Axis-Aligned Bounding Boxes" by James Avro -
  * Gems I, page 548
  */
-void BR_PUBLIC_ENTRY BrMatrix34ApplyBounds(br_bounds *A, br_bounds *B, br_matrix34 *C)
+void BR_PUBLIC_ENTRY BrMatrix34ApplyBounds(br_bounds *A, const br_bounds *B, const br_matrix34 *C)
 {
 	int i,j;
 	br_scalar a,b;
@@ -641,7 +641,7 @@ void BrMatrix34TApplyFV(br_vector3 *A, br_fvector3 *B, br_matrix34 *C)
 /*
  * vec_a = vec_b * mat
  */
-void BR_PUBLIC_ENTRY BrMatrix34Apply(br_vector3 *A, br_vector4 *B, br_matrix34 *C)
+void BR_PUBLIC_ENTRY BrMatrix34Apply(br_vector3 *A, const br_vector4 *B, const br_matrix34 *C)
 {
 	UASSERT_MESSAGE("Destination Vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source Vector is NULL", B != NULL);
@@ -656,7 +656,7 @@ void BR_PUBLIC_ENTRY BrMatrix34Apply(br_vector3 *A, br_vector4 *B, br_matrix34 *
 /*
  * [a b c ] = [ e f g ] . M
  */
-void BR_PUBLIC_ENTRY BrMatrix34ApplyP(br_vector3 *A, br_vector3 *B, br_matrix34 *C)
+void BR_PUBLIC_ENTRY BrMatrix34ApplyP(br_vector3 *A, const br_vector3 *B, const br_matrix34 *C)
 {
 	UASSERT_MESSAGE("Destination Vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source Vector is NULL", B != NULL);
@@ -671,7 +671,7 @@ void BR_PUBLIC_ENTRY BrMatrix34ApplyP(br_vector3 *A, br_vector3 *B, br_matrix34 
 /*
  * [a b c d] = [ e f g 0 ] . M
  */
-void BR_PUBLIC_ENTRY BrMatrix34ApplyV(br_vector3 *A, br_vector3 *B, br_matrix34 *C)
+void BR_PUBLIC_ENTRY BrMatrix34ApplyV(br_vector3 *A, const br_vector3 *B, const br_matrix34 *C)
 {
 	UASSERT_MESSAGE("Destination Vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source Vector is NULL", B != NULL);
@@ -686,7 +686,7 @@ void BR_PUBLIC_ENTRY BrMatrix34ApplyV(br_vector3 *A, br_vector3 *B, br_matrix34 
 /*
  * vec_a = vec_b * transpose(M)
  */
-void BR_PUBLIC_ENTRY BrMatrix34TApply(br_vector4 *A, br_vector4 *B, br_matrix34 *C)
+void BR_PUBLIC_ENTRY BrMatrix34TApply(br_vector4 *A, const br_vector4 *B, const br_matrix34 *C)
 {
 	UASSERT_MESSAGE("Destination Vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source Vector is NULL", B != NULL);
@@ -702,7 +702,7 @@ void BR_PUBLIC_ENTRY BrMatrix34TApply(br_vector4 *A, br_vector4 *B, br_matrix34 
 /*
  * [a b c] = [ e f g] . transpose(M)
  */
-void BR_PUBLIC_ENTRY BrMatrix34TApplyP(br_vector3 *A, br_vector3 *B, br_matrix34 *C)
+void BR_PUBLIC_ENTRY BrMatrix34TApplyP(br_vector3 *A, const br_vector3 *B, const br_matrix34 *C)
 {
 	UASSERT_MESSAGE("Destination Vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source Vector is NULL", B != NULL);
@@ -717,7 +717,7 @@ void BR_PUBLIC_ENTRY BrMatrix34TApplyP(br_vector3 *A, br_vector3 *B, br_matrix34
 /*
  * [a b c d] = [ e f g 0 ] . transpose(M)
  */
-void BR_PUBLIC_ENTRY BrMatrix34TApplyV(br_vector3 *A, br_vector3 *B, br_matrix34 *C)
+void BR_PUBLIC_ENTRY BrMatrix34TApplyV(br_vector3 *A, const br_vector3 *B, const br_matrix34 *C)
 {
 	UASSERT_MESSAGE("Destination Vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source Vector is NULL", B != NULL);
@@ -743,7 +743,7 @@ void BR_PUBLIC_ENTRY BrMatrix34TApplyV(br_vector3 *A, br_vector3 *B, br_matrix34
  * pre and post-multiply with an existing matrix
  */
 
-void BR_PUBLIC_ENTRY BrMatrix34Pre(br_matrix34 *mat , br_matrix34 *A)
+void BR_PUBLIC_ENTRY BrMatrix34Pre(br_matrix34 *mat, const br_matrix34 *A)
 {
 	br_matrix34 mattmp;
 
@@ -754,7 +754,7 @@ void BR_PUBLIC_ENTRY BrMatrix34Pre(br_matrix34 *mat , br_matrix34 *A)
 	BrMatrix34Copy(mat,&mattmp);
 }
 
-void BR_PUBLIC_ENTRY BrMatrix34Post(br_matrix34 *mat , br_matrix34 *A)
+void BR_PUBLIC_ENTRY BrMatrix34Post(br_matrix34 *mat, const br_matrix34 *A)
 {
 	br_matrix34 mattmp;
 
@@ -831,7 +831,7 @@ void BR_PUBLIC_ENTRY BrMatrix34PostRotateZ(br_matrix34 *mat, br_angle rz)
 	BrMatrix34Copy(mat,&mattmp2);
 }
 
-void BR_PUBLIC_ENTRY BrMatrix34PreRotate(br_matrix34 *mat, br_angle r, br_vector3 *axis)
+void BR_PUBLIC_ENTRY BrMatrix34PreRotate(br_matrix34 *mat, br_angle r, const br_vector3 *axis)
 {
 	br_matrix34 mattmp1,mattmp2;
 
@@ -842,7 +842,7 @@ void BR_PUBLIC_ENTRY BrMatrix34PreRotate(br_matrix34 *mat, br_angle r, br_vector
 	BrMatrix34Copy(mat,&mattmp2);
 }
 
-void BR_PUBLIC_ENTRY BrMatrix34PostRotate(br_matrix34 *mat, br_angle r, br_vector3 *axis)
+void BR_PUBLIC_ENTRY BrMatrix34PostRotate(br_matrix34 *mat, br_angle r, const br_vector3 *axis)
 {
 	br_matrix34 mattmp1,mattmp2;
 

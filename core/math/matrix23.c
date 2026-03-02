@@ -22,7 +22,7 @@ BR_RCS_ID("$Id: matrix23.c 1.5 1998/08/13 11:55:46 jon Exp $")
 /*
  * A = B
  */
-void BR_PUBLIC_ENTRY BrMatrix23Copy(br_matrix23 *A, br_matrix23 *B)
+void BR_PUBLIC_ENTRY BrMatrix23Copy(br_matrix23 *A, const br_matrix23 *B)
 {
 	UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
 	UASSERT_MESSAGE("Source matrix is NULL", B != NULL);
@@ -40,7 +40,7 @@ void BR_PUBLIC_ENTRY BrMatrix23Copy(br_matrix23 *A, br_matrix23 *B)
 /*
  * A = B*C
  */
-void BR_PUBLIC_ENTRY BrMatrix23Mul(br_matrix23 *A, br_matrix23 *B, br_matrix23 *C)
+void BR_PUBLIC_ENTRY BrMatrix23Mul(br_matrix23 *A, const br_matrix23 *B, const br_matrix23 *C)
 {
 	UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
 	UASSERT_MESSAGE("Left Hand Source matrix is NULL", B != NULL);
@@ -120,7 +120,7 @@ void BR_PUBLIC_ENTRY BrMatrix23ShearY(br_matrix23 *mat, br_scalar sx)
 
 #define PRECISION_LIMIT BR_SCALAR(1e-15)
 
-br_scalar BR_PUBLIC_ENTRY BrMatrix23Inverse(br_matrix23 *B, br_matrix23 *A)
+br_scalar BR_PUBLIC_ENTRY BrMatrix23Inverse(br_matrix23 *B, const br_matrix23 *A)
 {
     br_scalar det,idet,pos = 0,neg = 0;
 
@@ -164,7 +164,7 @@ br_scalar BR_PUBLIC_ENTRY BrMatrix23Inverse(br_matrix23 *B, br_matrix23 *A)
  * Invert a length preserving matrix
  */
 
-void BR_PUBLIC_ENTRY BrMatrix23LPInverse(br_matrix23 *B, br_matrix23 *A)
+void BR_PUBLIC_ENTRY BrMatrix23LPInverse(br_matrix23 *B, const br_matrix23 *A)
 {
     UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
     UASSERT_MESSAGE("Source matrix is NULL", B != NULL);
@@ -178,7 +178,7 @@ void BR_PUBLIC_ENTRY BrMatrix23LPInverse(br_matrix23 *B, br_matrix23 *A)
     B(2,1) = BR_MUL(A(0,1),A(2,0))-BR_MUL(A(0,0),A(2,1));
 }
 
-void BR_PUBLIC_ENTRY BrMatrix23LPNormalise(br_matrix23 *A, br_matrix23 *B)
+void BR_PUBLIC_ENTRY BrMatrix23LPNormalise(br_matrix23 *A, const br_matrix23 *B)
 {
 	UASSERT_MESSAGE("Destination matrix is NULL", A != NULL);
 	UASSERT_MESSAGE("Source matrix is NULL", B != NULL);
@@ -195,7 +195,7 @@ void BR_PUBLIC_ENTRY BrMatrix23LPNormalise(br_matrix23 *A, br_matrix23 *B)
  * [a b ] = [ e f ] . M
  */
 
-void BR_PUBLIC_ENTRY BrMatrix23ApplyP(br_vector2 *A, br_vector2 *B, br_matrix23 *C)
+void BR_PUBLIC_ENTRY BrMatrix23ApplyP(br_vector2 *A, const br_vector2 *B, const br_matrix23 *C)
 {
 	UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source vector is NULL", B != NULL);
@@ -209,7 +209,7 @@ void BR_PUBLIC_ENTRY BrMatrix23ApplyP(br_vector2 *A, br_vector2 *B, br_matrix23 
 /*
  * [a b c] = [ e f 0 ] . M
  */
-void BR_PUBLIC_ENTRY BrMatrix23ApplyV(br_vector2 *A, br_vector2 *B, br_matrix23 *C)
+void BR_PUBLIC_ENTRY BrMatrix23ApplyV(br_vector2 *A, const br_vector2 *B, const br_matrix23 *C)
 {
 	UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source vector is NULL", B != NULL);
@@ -223,7 +223,7 @@ void BR_PUBLIC_ENTRY BrMatrix23ApplyV(br_vector2 *A, br_vector2 *B, br_matrix23 
 /*
  * [a b] = [ e f] . transpose(M)
  */
-void BR_PUBLIC_ENTRY BrMatrix23TApplyP(br_vector2 *A, br_vector2 *B, br_matrix23 *C)
+void BR_PUBLIC_ENTRY BrMatrix23TApplyP(br_vector2 *A, const br_vector2 *B, const br_matrix23 *C)
 {
 	UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source vector is NULL", B != NULL);
@@ -237,7 +237,7 @@ void BR_PUBLIC_ENTRY BrMatrix23TApplyP(br_vector2 *A, br_vector2 *B, br_matrix23
 /*
  * [a b c] = [ e f 0 ] . transpose(M)
  */
-void BR_PUBLIC_ENTRY BrMatrix23TApplyV(br_vector2 *A, br_vector2 *B, br_matrix23 *C)
+void BR_PUBLIC_ENTRY BrMatrix23TApplyV(br_vector2 *A, const br_vector2 *B, const br_matrix23 *C)
 {
 	UASSERT_MESSAGE("Destination vector is NULL", A != NULL);
 	UASSERT_MESSAGE("Source vector is NULL", B != NULL);
@@ -253,7 +253,7 @@ void BR_PUBLIC_ENTRY BrMatrix23TApplyV(br_vector2 *A, br_vector2 *B, br_matrix23
  * pre and post-multiply with an existing matrix
  */
 
-void BR_PUBLIC_ENTRY BrMatrix23Pre(br_matrix23 *mat , br_matrix23 *A)
+void BR_PUBLIC_ENTRY BrMatrix23Pre(br_matrix23 *mat, const br_matrix23 *A)
 {
 	br_matrix23 mattmp;
 
@@ -264,7 +264,7 @@ void BR_PUBLIC_ENTRY BrMatrix23Pre(br_matrix23 *mat , br_matrix23 *A)
 	BrMatrix23Copy(mat,&mattmp);
 }
 
-void BR_PUBLIC_ENTRY BrMatrix23Post(br_matrix23 *mat , br_matrix23 *A)
+void BR_PUBLIC_ENTRY BrMatrix23Post(br_matrix23 *mat, const br_matrix23 *A)
 {
 	br_matrix23 mattmp;
 

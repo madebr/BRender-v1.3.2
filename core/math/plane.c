@@ -19,7 +19,7 @@ BR_RCS_ID("$Id: plane.c 1.3 1998/08/03 16:48:18 jon Exp $")
  *
  * Returns != 0 if points were co-linear 
  */
-br_int_32 BR_PUBLIC_ENTRY BrPlaneEquation(br_vector4 *eqn, br_vector3 *v0, br_vector3 *v1, br_vector3 *v2)
+br_int_32 BR_PUBLIC_ENTRY BrPlaneEquation(br_vector4 *eqn, const br_vector3 *v0, const br_vector3 *v1, const br_vector3 *v2)
 {
 	br_vector3 a,b;
 	float ax,ay,az;
@@ -75,7 +75,7 @@ br_int_32 BR_PUBLIC_ENTRY BrPlaneEquation(br_vector4 *eqn, br_vector3 *v0, br_ve
 /*
  * Apply a matrix34 transformation to a plane equation
  */
-void BR_PUBLIC_ENTRY BrMatrix34ApplyPlaneEquation(br_vector4 *A, br_vector4 *B, br_matrix34 *C)
+void BR_PUBLIC_ENTRY BrMatrix34ApplyPlaneEquation(br_vector4 *A, const br_vector4 *B, const br_matrix34 *C)
 {
 	br_scalar length;
 
